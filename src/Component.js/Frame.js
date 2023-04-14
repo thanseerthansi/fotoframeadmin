@@ -10,17 +10,19 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import DataTable from 'react-data-table-component';
 import Callaxios from './Callaxios';
+import { Simplecontext } from './Simplecontext';
 
 export default function Frame() {
+  const { framedata,Getframe } = useContext(Simplecontext)
     const [modal,setmodal]=useState(false)
-    const [framedata,setframedata]=useState([])
+    // const [framedata,setframedata]=useState([])
     const [framename,setframename]=useState('')
     const [image,setimage]=useState()
     const [selectframe,setselectframe]=useState()
     const [searchvalue,setsearchvalue]=useState('')
-    console.log("image",image)
+    // console.log("selectframe",selectframe)
     useEffect(() => {
-      Getframe()
+      // Getframe()
         // accesscheck()
         // Scripts()
     }, [])
@@ -32,35 +34,29 @@ export default function Frame() {
         position: "top-left",
         theme: "dark",
         });
-    const Getframe =async()=>{
-      try {
-        let data = await Callaxios("get","frame/frame/")
-        if (data.status===200){
-          console.log("data.data ",data.data)
-          setframedata(data.data)
-        }
-        console.log("data",data)
-      } catch (error) {
-        console.log(error)
-      }
-    } 
     const Postframe =async(e)=>{
       e.preventDefault()
+      let msg
       const form_data = new FormData();  
-      if (image){    
+      if (image instanceof File ){    
             form_data.append("image",image)
     }
       if (framename){
         form_data.append("framename",framename)
       }
-      
+      if (selectframe){
+        form_data.append("id",selectframe.id)
+        msg = "Successfully updated"
+      }else{
+        msg = "Successfully added"
+      }
       try {
       
        let data = await Callaxios("post","frame/frame/",form_data)  
        console.log("data",data)
        if (data.data.Status===200){
           Getframe()
-          notify("Successfulyy added")
+          notify(msg)
           setmodal(!modal)
        }       
       } catch (error) {
@@ -69,6 +65,7 @@ export default function Frame() {
     }
     const Getselectframe=(itm)=>{
       setallnull()
+      setselectframe(itm)
       setframename(itm.framename)
       setimage(itm.image)
       setmodal(!modal)
@@ -104,12 +101,12 @@ export default function Frame() {
             
         });
         };
-      
+        const rowNumber = (row) => framedata.filter(t=>t.framename.toUpperCase().includes(searchvalue.toUpperCase())).indexOf(row) + 1;
         const columns =[
     
             {
               name: <div>#</div>,
-              selector: (itm,index) =>index+1,
+              selector: (row) =>rowNumber(row),
               width:"50px",
             },
             {

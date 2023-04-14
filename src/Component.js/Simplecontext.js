@@ -22,7 +22,7 @@ export default function Simplecontextprovider({children}) {
       } 
   return (
     <Simplecontext.Provider value={{
-        framedata
+        framedata,Getframe
     }}>{children}</Simplecontext.Provider>
   )
 }

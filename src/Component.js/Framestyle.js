@@ -14,13 +14,14 @@ import Select from 'react-select';
 import { Simplecontext } from './Simplecontext';
 
 export default function Framestyle() {
-  const { framedata } = useContext(Simplecontext)
+  const { framedata,Getframe } = useContext(Simplecontext)
     const [modal,setmodal]=useState(false)
-    const [frametheme,setframetheme]=useState([])
+    const [framethemedata,setframethemedata]=useState([])
     const [selecttheme,setselecttheme]=useState()
-    const [themename,setthemename]=useState()
+    const [themetype,setthemetype]=useState()
     const [frame,setframe]=useState()
-    const [price,estprice]=useState()
+    const [price,settprice]=useState()
+    const [searchvalue,setsearchvalue]=useState('')
   
     useEffect(() => {
       Getframetheme()
@@ -38,12 +39,42 @@ export default function Framestyle() {
     const Getframetheme =async()=>{
       try {
         let data = await Callaxios("get","frame/frametype/")
-        console.log("data",data)
+        console.log("dataframesytle",data)
         if (data.status===200){
-          setframetheme(data.data)
+          setframethemedata(data.data)
         }
       } catch (error) { 
         notifyerror("Something went wrong")
+        
+      }
+    }
+    const Postframetype=async(e)=>{
+      e.preventDefault()
+      try {
+        let body
+        let framelist =[]
+        if (frame[0].value){
+          
+          console.log("ftamearay",frame)
+          
+          frame.forEach(element => {
+            framelist.push(element.value)
+          });
+          console.log("fraemlist",framelist)
+        }
+         body ={
+          frame_type:themetype,
+          frameid:framelist,
+          price:price,
+        }
+        let data = await Callaxios("post","frame/frametype/",body)
+        console.log("dATta",data)
+        if (data.data.Status===200){
+          notify("Successfuly added")
+          Getframe()
+          setmodal(!modal)
+        }
+      } catch (error) {
         
       }
     }
@@ -78,17 +109,17 @@ export default function Framestyle() {
             
         });
         };
-        
+        const rowNumber = (row) => framethemedata.filter(t=>t.frame_type.toUpperCase().includes(searchvalue.toUpperCase())).indexOf(row) + 1;
         const columns =[
     
           {
             name: <div>#</div>,
-            selector: (itm,index) =>index+1,
+            selector: (row) =>rowNumber(row),
             width:"50px",
           },
           {
             name:"Frame theme",
-            selector : (itm)=><div>{itm.framename}</div>,
+            selector : (itm)=><div>{itm.frame_type}</div>,
             // width:"20%",
           },
           {
@@ -100,9 +131,7 @@ export default function Framestyle() {
           },
           {
             name:"Price",
-            selector : (itm)=><div className='d-flex-col'>
-              
-        </div>,
+            selector : (itm)=><div className='d-flex-col'>{itm.price}</div>,
           
           },
           {
@@ -159,7 +188,7 @@ export default function Framestyle() {
             <div className="input-group-text">
               <BiSearch/>
             </div>
-            <input  type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
+            <input onChange={(e)=>setsearchvalue(e.target.value)}  type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
           </div>
         </form>
         </div>
@@ -170,7 +199,7 @@ export default function Framestyle() {
             pagination
             highlightOnHover
             columns={columns}
-            data={frametheme}               
+            data={framethemedata.filter(t=>t.frame_type.toUpperCase().includes(searchvalue.toUpperCase()))}               
             defaultSortField="_id"
             defaultSortAsc={false}               
             paginationRowsPerPageOptions={[10,20,50,100]}
@@ -192,12 +221,12 @@ export default function Framestyle() {
       <h5 className="modal-title" id="exampleModalCenterTitle">Tasks</h5>
       <button onClick={()=>setmodal(!modal)} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="btn-close" />
       </div>
-      <form className="forms-sample" >
+      <form className="forms-sample" onSubmit={(e)=>Postframetype(e)} >
         <div className="modal-body">
             <div className='row text-start'>
                 <div className="mb-3  col-6">
-                    <label htmlFor="select" className="form-label ">Frames Theme</label>
-                    <input type="text" required  className="form-control" placeholder="Job Details"  />
+                    <label htmlFor="select" className="form-label ">Frames Type</label>
+                    <input onChange={(e)=>setthemetype(e.target.value)} type="text" required  className="form-control" placeholder="Theme name "  />
                 </div>
                 <div className="mb-3  col-6">
                     <label htmlFor="select" className="form-label ">Frames </label>
@@ -215,7 +244,7 @@ export default function Framestyle() {
                 </div>
                 <div className="mb-3 col-6">
                     <label htmlFor="userEmail" className="form-label ">Price</label>
-                    <input type="text" required  className="form-control" placeholder="Job Details"  />
+                    <input onChange={(e)=>settprice(e.target.value)} type="text" required  className="form-control" placeholder="Job Details"  />
                 </div>
             </div>
         <div />

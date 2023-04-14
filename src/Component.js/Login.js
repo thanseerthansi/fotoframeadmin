@@ -32,10 +32,15 @@ export default function Login() {
           data: {"username":username,"password":password}
         }
         let data = await axios(body)
-        console.log("data",data)
+        // console.log("data",data)
         if(data.data.Status===200){
-          window.localStorage.setItem("fotoframe_token",data.data.token)
-          window.location='/'
+          if (data.data.is_admin===true || data.data.is_superuser===true){
+            window.localStorage.setItem("fotoframe_token",data.data.token)
+            window.location='/'
+          }else{
+            notifyerror("No access available")
+          }
+         
         }else{
           notifyerror("invalid Username or password")
         }
