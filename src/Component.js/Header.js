@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { GiWoodFrame } from 'react-icons/gi';
-import { MdFilterFrames,MdOutlineLogout } from 'react-icons/md';
+import { MdFilterFrames,MdOutlineLogout,MdPlace } from 'react-icons/md';
 import { AiFillDashboard ,AiOutlineBorder} from 'react-icons/ai';
 import { HiColorSwatch } from 'react-icons/hi';
 import { RiFileCopy2Fill,RiProductHuntFill } from 'react-icons/ri';
@@ -79,7 +79,7 @@ export default function Header() {
    <li className="nav-item not-active">
      <Link to="/city" className="nav-link">
        {/* <i className="link-icon" data-feather="table" /> */}
-       <MdFilterFrames size={22}/>
+       <MdPlace size={22}/>
        <span className="link-title " style={{paddingLeft:"4px"}}><b>City</b></span>
      </Link>
    </li>
