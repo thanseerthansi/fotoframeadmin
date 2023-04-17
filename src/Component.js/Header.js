@@ -76,6 +76,13 @@ export default function Header() {
        <span className="link-title " style={{paddingLeft:"4px"}}><b>Frame type</b></span>
      </Link>
    </li>
+   <li className="nav-item not-active">
+     <Link to="/city" className="nav-link">
+       {/* <i className="link-icon" data-feather="table" /> */}
+       <MdFilterFrames size={22}/>
+       <span className="link-title " style={{paddingLeft:"4px"}}><b>City</b></span>
+     </Link>
+   </li>
    
    
    

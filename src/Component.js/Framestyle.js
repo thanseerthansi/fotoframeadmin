@@ -12,19 +12,21 @@ import DataTable from 'react-data-table-component';
 import Callaxios from './Callaxios';
 import Select from 'react-select';
 import { Simplecontext } from './Simplecontext';
+import { Link } from 'react-router-dom';
 
 export default function Framestyle() {
   const { framedata,Getframe } = useContext(Simplecontext)
     const [modal,setmodal]=useState(false)
     const [framethemedata,setframethemedata]=useState([])
-    const [selecttheme,setselecttheme]=useState()
-    const [themetype,setthemetype]=useState()
-    const [frame,setframe]=useState()
-    const [price,settprice]=useState()
+    const [selecttheme,setselecttheme]=useState('')
+    const [themetype,setthemetype]=useState('')
+    const [frame,setframe]=useState('')
+    const [price,settprice]=useState('')
     const [searchvalue,setsearchvalue]=useState('')
-  
+    
     useEffect(() => {
       Getframetheme()
+      window.scrollTo(0,0);
         // accesscheck()
         // Scripts()
     }, [])
@@ -39,7 +41,7 @@ export default function Framestyle() {
     const Getframetheme =async()=>{
       try {
         let data = await Callaxios("get","frame/frametype/")
-        console.log("dataframesytle",data)
+        // console.log("dataframesytle",data)
         if (data.status===200){
           setframethemedata(data.data)
         }
@@ -52,26 +54,34 @@ export default function Framestyle() {
       e.preventDefault()
       try {
         let body
+        let msg
         let framelist =[]
         if (frame[0].value){
-          
-          console.log("ftamearay",frame)
-          
           frame.forEach(element => {
             framelist.push(element.value)
           });
-          console.log("fraemlist",framelist)
         }
-         body ={
-          frame_type:themetype,
-          frameid:framelist,
-          price:price,
+        if (selecttheme){
+          body = {
+            frame_type:themetype,
+            frameid:framelist,
+            price:price,
+            id:selecttheme.id,
+          }
+          msg = "Successfuly updated"
+        }else{
+          body ={
+            frame_type:themetype,
+            frameid:framelist,
+            price:price,
+          }
+          msg = "Successfuly added"
         }
+         
         let data = await Callaxios("post","frame/frametype/",body)
-        console.log("dATta",data)
         if (data.data.Status===200){
-          notify("Successfuly added")
-          Getframe()
+          notify(msg)
+          Getframetheme()
           setmodal(!modal)
         }
       } catch (error) {
@@ -79,19 +89,42 @@ export default function Framestyle() {
       }
     }
     const deletetask = async(itmid)=>{
-        notify("delete")
-        // try {
-        //   let data =await Callaxios("delete",`categories/${itmid}`)
-        //   // console.log("data",data)
-        //   if (data.status===200){
-        //     notify("Deleted Successfully")
-        //     getcategory()
-        //   }
-        // } catch (error) {
-        //   notifyerror("Something went wrong")
-        // }    
+        
+        try {
+          let data =await Callaxios("delete",`frame/frametype/`,{"id":itmid})
+          if (data.data.Status===200){
+            notify("Deleted Successfully")
+            Getframetheme()
+          }
+        } catch (error) {
+          notifyerror("Something went wrong")
+        }    
     }
-    
+    const setallnull=()=>{
+      setselecttheme('')
+      setthemetype('')
+      setframe('')
+      settprice('')
+    }
+    const Setvalues=(itm)=>{
+      setallnull() 
+      setselecttheme(itm)
+      setthemetype(itm.frame_type)
+      sortarr(itm)
+      settprice(itm.price)
+      setmodal(!modal) 
+    }
+    const sortarr=(frame_array)=>{
+      if (frame_array.frame.length){
+        const list_item=[]
+        frame_array.frame.forEach(element => {
+          list_item.push( {label:element.framename, value: element.id} ,)
+        });
+        // console.log("listvalue",list_item)
+        setframe(()=>[...list_item])
+      }
+      
+    }
     const submitdelete = (itemid) => {
         confirmAlert({
             title: "Confirmation",
@@ -99,7 +132,7 @@ export default function Framestyle() {
             buttons: [
             {
                 label: "Yes",           
-                onClick:()=>deletetask(),
+                onClick:()=>deletetask(itemid),
             },
             {
                 label: "No"
@@ -118,15 +151,19 @@ export default function Framestyle() {
             width:"50px",
           },
           {
-            name:"Frame theme",
+            name:"Frame type",
             selector : (itm)=><div>{itm.frame_type}</div>,
             // width:"20%",
           },
           {
             name:"Frames",
             selector : (itm)=><div className='d-flex-col'>
-              
-        </div>,
+              {itm.frame? itm.frame.map((frameitm,fk)=>(
+                <ul key={fk}>
+                  <li>{frameitm.framename}</li>
+                </ul>
+              )) :null} 
+            </div>,
           
           },
           {
@@ -137,7 +174,7 @@ export default function Framestyle() {
           {
             name:"Action",
             selector : (itm)=><div className='d-flex'><div>
-            <button className='btn btn-warning btn-xs '><BiEdit size={15} /></button>
+            <button onClick={()=>Setvalues(itm)} className='btn btn-warning btn-xs '><BiEdit size={15} /></button>
             </div>
             <div className='ml-5' style={{marginLeft:"2px"}}>
             <button  onClick={()=>submitdelete(itm.id)} className='btn btn-danger btn-xs' ><RiDeleteBin6Line size={15} /></button>
@@ -180,7 +217,7 @@ export default function Framestyle() {
         <div className='row ' >
           <div className='col-6' >
         <h6 className="card-title text-start text-bold">Frame type</h6>
-        <div className='text-start'><button onClick={()=>setmodal(!modal)} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div>
+        <div className='text-start'><button onClick={()=>setmodal(!modal) &setallnull()} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div>
         </div>
         <div className='col-6'>
         <form className="search-form ml-auto">
@@ -218,18 +255,21 @@ export default function Framestyle() {
   <div className="modal " id="exampleModalCenter" tabIndex={1} aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style={modal===true ? {display: 'block', paddingRight: 17}:{display:'none'}}>
   <div className="modal-dialog modal-dialog-centered modal-lg box-shadow-blank" >
     <div className="modal-content"><div className="modal-header">
-      <h5 className="modal-title" id="exampleModalCenterTitle">Tasks</h5>
+      <h5 className="modal-title" id="exampleModalCenterTitle">Frame Type</h5>
       <button onClick={()=>setmodal(!modal)} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="btn-close" />
       </div>
       <form className="forms-sample" onSubmit={(e)=>Postframetype(e)} >
         <div className="modal-body">
             <div className='row text-start'>
                 <div className="mb-3  col-6">
-                    <label htmlFor="select" className="form-label ">Frames Type</label>
-                    <input onChange={(e)=>setthemetype(e.target.value)} type="text" required  className="form-control" placeholder="Theme name "  />
+                    <label htmlFor="select" className="form-label ">Frames Type <b>*</b> </label>
+                    <input onChange={(e)=>setthemetype(e.target.value)} value={themetype} type="text" required  className="form-control" placeholder="frame type name"  />
                 </div>
                 <div className="mb-3  col-6">
-                    <label htmlFor="select" className="form-label ">Frames </label>
+                    <label htmlFor="select" className="form-label ">Frames <b>*</b> </label>
+                    {/* <div className='text-end'> */}
+                        <Link to="/frame" className='text-primary ' >Add Frames</Link>
+                        {/* </div> */}
                     <Select
                           options={framedata ? framedata.map((fitm, ft) => (
                             { label: fitm.framename, value: fitm.id }
@@ -241,10 +281,11 @@ export default function Framestyle() {
                           isMulti={true}
                           isRequired={true}
                         />
+                        
                 </div>
                 <div className="mb-3 col-6">
-                    <label htmlFor="userEmail" className="form-label ">Price</label>
-                    <input onChange={(e)=>settprice(e.target.value)} type="text" required  className="form-control" placeholder="Job Details"  />
+                    <label htmlFor="userEmail" className="form-label ">Price <b>*</b> </label>
+                    <input onChange={(e)=>settprice(e.target.value)} value={price} type="text" required  className="form-control" placeholder="Price"  />
                 </div>
             </div>
         <div />

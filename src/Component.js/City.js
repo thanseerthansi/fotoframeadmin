@@ -12,16 +12,16 @@ import DataTable from 'react-data-table-component';
 import Callaxios from './Callaxios';
 
 
-export default function Producttheme() {
+export default function City() {
     const [modal,setmodal]=useState(false)
-    const [themedata,setthemedata]=useState([])
-    const [themename,setthemename]=useState('')
-    const [description,setdescription]=useState('')
-    const [selecttheme,setselecttheme]=useState('')
+    const [citydata,setcitydata]=useState([])
+    const [cityname,setcityname]=useState()
+    const [description,setdescription]=useState()
+    const [selectcity,setselectcity]=useState()
     const [searchvalue,setsearchvalue]=useState('')
-    // console.log("selecttheme",selecttheme)
+    // console.log("selectcity",selectcity)
     useEffect(() => {
-      Gettheme()
+      Getcity()
         // accesscheck()
         // Scripts()
     }, [])
@@ -34,45 +34,45 @@ export default function Producttheme() {
         theme: "dark",
         });
 
-        const Gettheme =async()=>{
+        const Getcity =async()=>{
             try {
-              let data = await Callaxios("get","product/producttheme/")
-              console.log("datacity",data)
+              let data = await Callaxios("get","frame/city/")
+            //   console.log("datacity",data)
               if (data.status===200){
                 // console.log("data",data.data)
-                setthemedata(data.data)
+                setcitydata(data.data)
               }
             } catch (error) { 
               notifyerror("Something went wrong")
               
             }
           }
-    const Posttheme =async(e)=>{
+    const Postcity =async(e)=>{
         e.preventDefault()
         let msg
         let body
       
      
-        if (selecttheme){
+        if (selectcity){
             body ={
-                id : selecttheme.id,
-                theme_name:themename,
+                id : selectcity.id,
+                city:cityname,
                 description:description,
             }
             msg = "Successfully updated"
         }else{
             body ={
-                theme_name:themename,
+                city:cityname,
                 description:description,
             }
             msg = "Successfully added"
         }
         try {
-        console.log("BODY",body)
-        let data = await Callaxios("post","product/producttheme/",body)  
-        console.log("data",data)
+        // console.log("BODY",body)
+        let data = await Callaxios("post","frame/city/",body)  
+        // console.log("data",data)
         if (data.data.Status===200){
-            Gettheme()
+            Getcity()
             notify(msg)
             setmodal(!modal)
         }       
@@ -80,20 +80,20 @@ export default function Producttheme() {
             console.log(error)
         }
     }
-    const Getselecttheme=(itm)=>{
+    const Getselectcity=(itm)=>{
       setallnull()
-      setselecttheme(itm)
-      setthemename(itm.city)
+      setselectcity(itm)
+      setcityname(itm.city)
       setdescription(itm.description)
       setmodal(!modal)
     }
     const deletetask = async(itmid)=>{
         try {
-          let data =await Callaxios("delete",`product/producttheme/`,{id:itmid})
+          let data =await Callaxios("delete",`frame/city`,{id:itmid})
         //   console.log("data",data)
           if (data.status===200){
             notify("Deleted Successfully")
-            Gettheme()
+            Getcity()
           }
         } catch (error) {
           notifyerror("Something went wrong")
@@ -118,8 +118,8 @@ export default function Producttheme() {
             
         });
         };
-        // const rowNumber = (row) => themedata 
-        const rowNumber = (row) => themedata.filter(t=>t.theme_name.toUpperCase().includes(searchvalue.toUpperCase())).indexOf(row) + 1;
+        // const rowNumber = (row) => citydata 
+        const rowNumber = (row) => citydata.filter(t=>t.city.toUpperCase().includes(searchvalue.toUpperCase())).indexOf(row) + 1;
         // console.log("rownum",rowNumber)
         const columns =[
     
@@ -129,8 +129,8 @@ export default function Producttheme() {
               width:"50px",
             },
             {
-              name:"Product theme",
-              selector : (itm)=><div>{itm.theme_name}</div>,
+              name:"City",
+              selector : (itm)=><div>{itm.city}</div>,
               // width:"20%",
             },
             {
@@ -143,7 +143,7 @@ export default function Producttheme() {
             {
               name:"Action",
               selector : (itm)=><div className='d-flex'><div>
-              <button onClick={()=>Getselecttheme(itm)} className='btn btn-warning btn-xs '><BiEdit size={15} /></button>
+              <button onClick={()=>Getselectcity(itm)} className='btn btn-warning btn-xs '><BiEdit size={15} /></button>
               </div>
               <div className='ml-5' style={{marginLeft:"2px"}}>
               <button  onClick={()=>submitdelete(itm.id)} className='btn btn-danger btn-xs' ><RiDeleteBin6Line size={15} /></button>
@@ -177,8 +177,8 @@ export default function Producttheme() {
          
           };
     const setallnull=(name)=>{
-      setselecttheme('')
-      setthemename('')
+      setselectcity('')
+      setcityname('')
       setdescription('')
     }
   return (
@@ -199,7 +199,7 @@ export default function Producttheme() {
             <div className="input-group-text">
               <BiSearch/>
             </div>
-            <input  type="text" onChange={(e)=>setsearchvalue(e.target.value)} value={searchvalue} className="form-control" id="navbarForm" placeholder="Search here..." />
+            <input  type="text" onChange={(e)=>setsearchvalue(e.target.value)} className="form-control" id="navbarForm" placeholder="Search here..." />
           </div>
         </form>
         </div>
@@ -210,9 +210,8 @@ export default function Producttheme() {
             pagination
             highlightOnHover
             columns={columns}
-                               
-            data={themedata.filter(t=>t.theme_name.toUpperCase().includes(searchvalue.toUpperCase()))}                      
-            defaultSortField="id"
+            data={citydata.filter(t=>t.city.toUpperCase().includes(searchvalue.toUpperCase()))}                      
+            defaultSortField="_id"
             defaultSortAsc={false}               
             paginationRowsPerPageOptions={[10,20,50,100]}
             // fixedHeader
@@ -237,12 +236,12 @@ export default function Producttheme() {
       <h5 className="modal-title" id="exampleModalCenterTitle">City</h5>
       <button onClick={()=>setmodal(!modal)} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="btn-close" />
       </div>
-      <form className="forms-sample" onSubmit={(e)=>Posttheme(e)} >
+      <form className="forms-sample" onSubmit={(e)=>Postcity(e)} >
         <div className="modal-body">
             <div className='row text-start'>              
                 <div className="mb-3 col-12">
-                    <label htmlFor="userEmail" className="form-label ">Theme Name</label>
-                    <input  onChange={(e)=>setthemename(e.target.value)} value={themename} type="text" required  className="form-control" placeholder="Theme name"  />
+                    <label htmlFor="userEmail" className="form-label ">City</label>
+                    <input  onChange={(e)=>setcityname(e.target.value)} value={cityname} type="text" required  className="form-control" placeholder="City"  />
                 </div>
                 <div className="mb-3 col-12">
                     <label htmlFor="userEmail" className="form-label ">description</label>
