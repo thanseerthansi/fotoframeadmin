@@ -37,7 +37,7 @@ export default function Producttheme() {
         const Gettheme =async()=>{
             try {
               let data = await Callaxios("get","product/producttheme/")
-              console.log("datacity",data)
+              // console.log("datacity",data)
               if (data.status===200){
                 // console.log("data",data.data)
                 setthemedata(data.data)
@@ -68,9 +68,9 @@ export default function Producttheme() {
             msg = "Successfully added"
         }
         try {
-        console.log("BODY",body)
+        // console.log("BODY",body)
         let data = await Callaxios("post","product/producttheme/",body)  
-        console.log("data",data)
+        // console.log("data",data)
         if (data.data.Status===200){
             Gettheme()
             notify(msg)
@@ -190,7 +190,7 @@ export default function Producttheme() {
       <div className="card-body">
         <div className='row ' >
           <div className='col-6' >
-        <h6 className="card-title text-start text-bold">City</h6>
+        <h6 className="card-title text-start text-bold">Product Theme</h6>
         <div className='text-start'><button onClick={()=>setmodal(!modal) & setallnull()} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div>
         </div>
         <div className='col-6'>
@@ -208,7 +208,7 @@ export default function Producttheme() {
         <div className="table-responsive pt-3">
         <DataTable
             pagination
-            highlightOnHover
+            // highlightOnHover
             columns={columns}
                                
             data={themedata.filter(t=>t.theme_name.toUpperCase().includes(searchvalue.toUpperCase()))}                      

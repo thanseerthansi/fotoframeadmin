@@ -208,7 +208,7 @@ export default function City() {
         <div className="table-responsive pt-3">
         <DataTable
             pagination
-            highlightOnHover
+            // highlightOnHover
             columns={columns}
             data={citydata.filter(t=>t.city.toUpperCase().includes(searchvalue.toUpperCase()))}                      
             defaultSortField="_id"

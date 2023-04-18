@@ -234,7 +234,7 @@ export default function Framestyle() {
         <div className="table-responsive pt-3">
         <DataTable
             pagination
-            highlightOnHover
+            // highlightOnHover
             columns={columns}
             data={framethemedata.filter(t=>t.frame_type.toUpperCase().includes(searchvalue.toUpperCase()))}               
             defaultSortField="_id"

@@ -27448,3 +27448,9 @@ html{
         transform: rotate(360deg);
       }
     }
+.status-button{
+    border: 0;
+}
+/* .rdt_TableRow:hover > td:last-child {
+    background-color: #f5f5f5;
+  } */

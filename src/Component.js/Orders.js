@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-// import Callaxios from './Callaxios'
-// import { Simplecontext } from './Simplecontext'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import { BiSearch,BiAddToQueue,BiEdit } from 'react-icons/bi';
@@ -9,9 +7,12 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import DataTable from 'react-data-table-component';
-
+import { Simplecontext } from './Simplecontext';
+import Callaxios from './Callaxios';
 export default function Orders() {
+    const { orderproductdata,Getorderproduct } = useContext(Simplecontext)
     const [modal,setmodal]=useState(false)
+    const [orderdata,setorderdata]=useState([])
   
     useEffect(() => {
         // accesscheck()
@@ -25,6 +26,16 @@ export default function Orders() {
         position: "top-left",
         theme: "dark",
         });
+    const Getorders =async()=>{
+      try {
+        let data  = await Callaxios("get","order/Getorderproduct/")
+        if (data.status===200){
+            setorderdata(data.data)
+        }
+      } catch (error) {
+        
+      }
+    }
     const deletetask = async(itmid)=>{
         notify("delete")
         // try {
@@ -72,11 +83,12 @@ export default function Orders() {
             {
               name:"SN.NO",
               selector : (itm)=><div>{itm.id}</div>,
-              width:"20%",
+              // width:"10%",
             },
             {
               name:"Customer",
               selector : (itm)=><div></div>,
+              width:"20%",
              
             },
             {
@@ -158,7 +170,7 @@ export default function Orders() {
         <div className="table-responsive pt-3">
         <DataTable
             pagination
-            highlightOnHover
+            // highlightOnHover
             columns={columns}
             data={data}               
             defaultSortField="_id"

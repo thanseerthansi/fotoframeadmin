@@ -4,6 +4,7 @@ export const Simplecontext = createContext();
 
 export default function Simplecontextprovider({children}) {
     const [framedata,setframedata]=useState([])
+    const [orderproductdata,setorderproductdata]=useState([])
     useEffect(() => {
       Getframe()
     }, [])
@@ -20,9 +21,19 @@ export default function Simplecontextprovider({children}) {
           console.log(error)
         }
       } 
+    const Getorderproduct=async()=>{
+        try {
+          let data = await Callaxios("get","order/order")
+          if (data.status===200){
+            setorderproductdata(data.data)
+          }
+        } catch (error) {
+          
+        }
+    }
   return (
     <Simplecontext.Provider value={{
-        framedata,Getframe
+        framedata,Getframe,Getorderproduct,orderproductdata
     }}>{children}</Simplecontext.Provider>
   )
 }

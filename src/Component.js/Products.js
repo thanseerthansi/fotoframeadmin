@@ -21,6 +21,8 @@ export default function Products() {
     const [image,setimage]=useState('')
     const [color,setcolor]=useState('')
     const [price,setprice]=useState('')
+    // const [status,setstatus]=useState('')
+    const [auther,setauther]=useState('')
     const [selectproduct,setselectproduct]=useState('')
     const [searchvalue,setsearchvalue]=useState('')
     
@@ -43,7 +45,7 @@ export default function Products() {
     const Getproduct=async()=>{
       try {
         let data = await Callaxios("get","product/product/")
-        console.log("data",data)
+        // console.log("data",data)
         if(data.status===200){
           setproductdata(data.data)       
         }
@@ -54,7 +56,7 @@ export default function Products() {
     const Gettheme =async()=>{
       try {
         let data = await Callaxios("get","product/producttheme/")
-        console.log("datacity",data)
+        // console.log("datacity",data)
         if (data.status===200){
           // console.log("data",data.data)
           setthemedata(data.data)
@@ -66,26 +68,30 @@ export default function Products() {
     }
         const Postproduct =async(e)=>{
           e.preventDefault()
-          console.log("postproduct")
+          // console.log("postproduct")
           let msg
           let themelist =[]
           const form_data = new FormData();  
           if (image instanceof File ){    
                 form_data.append("product_image",image)
-        }
-          
+        }         
           form_data.append("product_name",title)
-          form_data.append("product_image",title)
-          form_data.append("auther",title)
-          form_data.append("price",title)
-          form_data.append("color",color)
+          form_data.append("auther",auther)
+          form_data.append("price",price)
+          form_data.append("color",color)     
+          try {
+            if (theme[0].value){
+              theme.forEach(element => {
+                themelist.push(element.value)
+              });
+            }
+          } catch (error) {           
+              notifyerror("Theme not selected")
+              return           
+          }     
           
-          if (theme[0].value){
-            theme.forEach(element => {
-              themelist.push(element.value)
-            });
-          }
-          form_data.append("theme",JSON.stringify(themelist))
+          // form_data.append("theme_id",themelist)
+          form_data.append("theme_id",JSON.stringify(themelist))
           
           if (selectproduct){
             form_data.append("id",selectproduct.id)
@@ -96,9 +102,9 @@ export default function Products() {
           try {
           
            let data = await Callaxios("post","product/product/",form_data)  
-           console.log("data",data)
+          //  console.log("data",data)
            if (data.data.Status===200){
-              Gettheme()
+              Getproduct()
               notify(msg)
               setmodal(!modal)
            }       
@@ -107,17 +113,17 @@ export default function Products() {
           }
         }
     const deletetask = async(itmid)=>{
-        notify("delete")
-        // try {
-        //   let data =await Callaxios("delete",`categories/${itmid}`)
-        //   // console.log("data",data)
-        //   if (data.status===200){
-        //     notify("Deleted Successfully")
-        //     getcategory()
-        //   }
-        // } catch (error) {
-        //   notifyerror("Something went wrong")
-        // }    
+        // notify("delete")
+        try {
+          let data =await Callaxios("delete",`product/product/`,{id:itmid})
+          // console.log("data",data)
+          if (data.status===200){
+            notify("Deleted Successfully")
+            Getproduct()
+          }
+        } catch (error) {
+          notifyerror("Something went wrong")
+        }    
     }
     
     const submitdelete = (itemid) => {
@@ -127,7 +133,7 @@ export default function Products() {
             buttons: [
             {
                 label: "Yes",           
-                onClick:()=>deletetask(),
+                onClick:()=>deletetask(itemid),
             },
             {
                 label: "No"
@@ -137,6 +143,48 @@ export default function Products() {
             
         });
         };
+        const edittheme=(itm)=>{
+          setallnull()
+          setselectproduct(itm)
+          settitle(itm.product_name)
+          setauther(itm.auther)
+          setimage(itm.product_image)
+          setprice(itm.price)
+          setcolor(itm.color)
+          arraysorttheme(itm)
+          setmodal(!modal)
+        }
+        const setallnull=()=>{
+          setselectproduct('')
+          settitle('')
+          setauther('')
+          setcolor('')
+          settheme('')
+          setprice('')
+          setimage()
+        }
+        const arraysorttheme=(product_array)=>{
+          if (product_array.theme.length){
+            const list_item=[]
+            product_array.theme.forEach(element => {
+              list_item.push( {label:element.theme_name, value: element.id} ,)
+            });
+            // console.log("listvalue",list_item)
+            settheme(()=>[...list_item])
+          }
+          
+        }
+        const setstatus=async(status,itmid)=>{
+          try {
+            let data = await Callaxios("post","product/product/",{status:status,id:itmid})  
+            if (data.data.Status===200){
+              // notify("status updated")
+              Getproduct()
+            }
+          } catch (error) {
+            notifyerror("Something went wrong")
+          }
+        }
         const rowNumber = (row) => productdata.filter(t=>t.product_name.toUpperCase().includes(searchvalue.toUpperCase())).indexOf(row) + 1;
         const columns =[
     
@@ -154,7 +202,14 @@ export default function Products() {
               name:"Images",
               selector : (itm)=><div className='d-flex-col text-center'><img src={itm.product_image} width={70} className="img-thumbnail" alt="layout images" />                  
           </div>,
-            width:"20%",
+            // width:"20%",
+            },
+            {
+              name:"Status",
+              selector : (itm)=>itm.status===true ? 
+              <button onClick={()=>setstatus(false,itm.id)} className='h-auto w-auto rounded text-white p-1 bg-success status-button' >enabled</button>
+               :<button onClick={()=>setstatus(true,itm.id)} className='h-auto w-auto rounded text-white p-1  status-button'style={{backgroundColor:"#e20000"}}>disabled</button>,
+               width:"10%",
             },
             {
               name:"Auther",
@@ -162,15 +217,19 @@ export default function Products() {
             },
             {
               name:"Color",
-              selector : (itm)=><div>{itm.color}</div>,
+              selector : (itm)=><div style={{backgroundColor:itm.color,height:"40px",width:"40px",borderRadius:"40px"}}><span > </span></div>,
             },
             {
               name:"Theme",
               selector : (itm)=><div>
-                <ul>
-                  <li>{itm.theme}</li>
+                {itm.theme? itm.theme.map((themeitm,fk)=>(
+                <ul key={fk}>
+                  <li>{themeitm.theme_name}</li>
                 </ul>
+              )) :null} 
+               
                 </div>,
+                width:"160px",
             },
             {
               name:"Price",
@@ -179,11 +238,12 @@ export default function Products() {
             {
               name:"Action",
               selector : (itm)=><div className='d-flex'><div>
-              <button  className='btn btn-warning btn-xs '><BiEdit size={15} /></button>
+              <button onClick={()=>edittheme(itm)} className='btn btn-warning btn-xs '><BiEdit size={15} /></button>
               </div>
               <div className='ml-5' style={{marginLeft:"2px"}}>
               <button  onClick={()=>submitdelete(itm.id)} className='btn btn-danger btn-xs' ><RiDeleteBin6Line size={15} /></button>
             </div></div>,
+            width:"150px",
             },
             
             
@@ -222,7 +282,7 @@ export default function Products() {
         <div className='row ' >
           <div className='col-6' >
         <h6 className="card-title text-start text-bold">Products</h6>
-        <div className='text-start'><button onClick={()=>setmodal(!modal)} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div>
+        <div className='text-start'><button onClick={()=>setmodal(!modal)&setallnull()} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div>
         </div>
         <div className='col-6'>
         <form className="search-form ml-auto">
@@ -239,10 +299,11 @@ export default function Products() {
         <div className="table-responsive pt-3">
         <DataTable
             pagination
-            highlightOnHover
+            // highlightOnHover
+            // highlightOnHover={true}
             columns={columns}
-            data={productdata}               
-            defaultSortField="_id"
+            data={ productdata.filter(t=>t.product_name.toUpperCase().includes(searchvalue.toUpperCase()))}               
+            defaultSortField="id"
             defaultSortAsc={false}               
             paginationRowsPerPageOptions={[10,20,50,100]}
             // fixedHeader
@@ -267,19 +328,19 @@ export default function Products() {
             <div className='row text-start'>              
                 <div className="mb-3 col-md-6 col-12">
                     <label htmlFor="userEmail" className="form-label ">Title</label>
-                    <input   type="text" required  className="form-control" placeholder="Product Title"  />
+                    <input onChange={(e)=>settitle(e.target.value)}  value={title} type="text" required  className="form-control" placeholder="Product Title"  />
                 </div>
                 <div className="mb-3 col-md-6 col-12">
                     <label htmlFor="userEmail" className="form-label ">Auther</label>
-                    <input   type="text"   className="form-control" placeholder="auther"  />
+                    <input onChange={(e)=>setauther(e.target.value)}  value={auther}   type="text"   className="form-control" placeholder="auther"  />
                 </div>
                 <div className="mb-3 col-md-6 col-12">
                     <label htmlFor="userEmail" className="form-label ">Color</label>
-                    <input   type="color" required  className="form-control" placeholder="Color"  />
+                    <input onChange={(e)=>setcolor(e.target.value)}  value={color}   type="color" required  className="form-control" placeholder="Color"  />
                 </div>
                 <div className="mb-3 col-md-6 col-12">
                     <label htmlFor="userEmail" className="form-label ">Theme  </label>
-                    <Link to="/frame" className='text-primary ' > &nbsp; Add Theme</Link>
+                    <Link to="/producttheme" className='text-primary ' > &nbsp; Add Theme</Link>
                         {/* </div> */}
                     <Select
                           options={themedata ? themedata.map((titm, t) => (
@@ -294,17 +355,17 @@ export default function Products() {
                         />
                 </div>
                 <div className="mb-3 col-md-6 col-12">
-                    <label htmlFor="userEmail" className="form-label ">Image</label>
-                    <input   type="text" required  className="form-control" placeholder="Image"  />
+                    <label htmlFor="userEmail" className="form-label ">Price</label>
+                    <input onChange={(e)=>setprice(e.target.value)}  value={price}   type="text" required  className="form-control" placeholder="Price"  />
                 </div>
                 <div className="mb-3 col-md-6 col-12">
                     <label htmlFor="userEmail" className="form-label ">image</label>
-                    <input   type="file"   className="form-control" placeholder="image"  />
-                    {/* {image ?
+                    <input   type="file" onChange={(e)=>setimage(e.target.files[0])}  value={''}   className="form-control" placeholder="image"  />
+                    {image ?
                           <div className='m-2'>
                             <img className='rounded image-size' src={image instanceof File ? URL.createObjectURL(image):image}  alt='img' height="auto" width="auto" />
                           </div>
-                          :null } */}
+                          :null }
                 </div>
                 
                

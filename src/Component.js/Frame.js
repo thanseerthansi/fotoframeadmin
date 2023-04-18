@@ -53,7 +53,7 @@ export default function Frame() {
       try {
       
        let data = await Callaxios("post","frame/frame/",form_data)  
-       console.log("data",data)
+      //  console.log("data",data)
        if (data.data.Status===200){
           Getframe()
           notify(msg)
@@ -73,7 +73,7 @@ export default function Frame() {
     const deletetask = async(itmid)=>{
         try {
           let data =await Callaxios("delete",`frame/frame`,{id:itmid})
-          console.log("data",data)
+          // console.log("data",data)
           if (data.status===200){
             notify("Deleted Successfully")
             Getframe()
@@ -189,7 +189,7 @@ export default function Frame() {
         <div className="table-responsive pt-3">
         <DataTable
             pagination
-            highlightOnHover
+            // highlightOnHover
             columns={columns}
             data={framedata.filter(t=>t.framename.toUpperCase().includes(searchvalue.toUpperCase()))}               
             defaultSortField="_id"
