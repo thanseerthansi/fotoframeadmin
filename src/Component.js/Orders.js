@@ -13,8 +13,10 @@ export default function Orders() {
     const { orderproductdata,Getorderproduct } = useContext(Simplecontext)
     const [modal,setmodal]=useState(false)
     const [orderdata,setorderdata]=useState([])
+    const [searchvalue,setsearchvalue]=useState('')
   
     useEffect(() => {
+      Getorders()
         // accesscheck()
         // Scripts()
     }, [])
@@ -28,51 +30,23 @@ export default function Orders() {
         });
     const Getorders =async()=>{
       try {
-        let data  = await Callaxios("get","order/Getorderproduct/")
+        let data  = await Callaxios("get","order/orders/")
+        // console.log("order date",data)
         if (data.status===200){
             setorderdata(data.data)
         }
       } catch (error) {
-        
+        notifyerror("Something went wrong ")
       }
     }
     const deletetask = async(itmid)=>{
-        notify("delete")
-        // try {
-        //   let data =await Callaxios("delete",`categories/${itmid}`)
-        //   // console.log("data",data)
-        //   if (data.status===200){
-        //     notify("Deleted Successfully")
-        //     getcategory()
-        //   }
-        // } catch (error) {
-        //   notifyerror("Something went wrong")
-        // }    
+        notify("delete")    
     }
-    
-    const submitdelete = (itemid) => {
-        confirmAlert({
-            title: "Confirmation",
-            message: `Are you sure to delete this ?`,
-            buttons: [
-            {
-                label: "Yes",           
-                onClick:()=>deletetask(),
-            },
-            {
-                label: "No"
-                // onClick: () => alert("Click No")
-            } 
-            ],
-            
-        });
-        };
-        const data = [
-            { id: 1, name: 'John Doe', age: 32 },
-            { id: 2, name: 'Jane Doe', age: 28 },
-            { id: 3, name: 'Bob Smith', age: 45 },
-          
-          ];
+    const orderfunction=(itm)=>{
+      let order_qs = orderproductdata.filter(t=>t.order.id===itm.id)
+      return order_qs[0]
+      
+    }   
         const columns =[
     
             {
@@ -82,23 +56,23 @@ export default function Orders() {
             },
             {
               name:"SN.NO",
-              selector : (itm)=><div>{itm.id}</div>,
+              selector : (itm)=><div>F{orderfunction(itm).created_date.split('T')[1].split('.')[1]}f{orderfunction(itm).id}</div>,
               // width:"10%",
             },
             {
               name:"Customer",
-              selector : (itm)=><div></div>,
+              selector : (itm)=><div>{orderfunction(itm).customer}</div>,
               width:"20%",
              
             },
             {
               name:"Address",
-              selector : (itm)=><div></div>,
+              selector : (itm)=><div>{orderfunction(itm).address}</div>,
         
             },
             {
               name:"Product",
-              selector : (itm)=><div className='d-flex-col text-center'>   {itm.name}                  
+              selector : (itm)=><div className='d-flex-col text-center'>                    
           </div>,
             width:"20%",
             },
@@ -172,7 +146,7 @@ export default function Orders() {
             pagination
             // highlightOnHover
             columns={columns}
-            data={data}               
+            data={orderproductdata}               
             defaultSortField="_id"
             defaultSortAsc={false}               
             paginationRowsPerPageOptions={[10,20,50,100]}

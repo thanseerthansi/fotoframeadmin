@@ -21,16 +21,18 @@ export default function Products() {
     const [image,setimage]=useState('')
     const [color,setcolor]=useState('')
     const [price,setprice]=useState('')
-    // const [status,setstatus]=useState('')
+    const [orient,setorient]=useState('')
     const [auther,setauther]=useState('')
     const [selectproduct,setselectproduct]=useState('')
     const [searchvalue,setsearchvalue]=useState('')
+    const [delivery_charge,setdelivery_charge]=useState(0)
     
     // const []
   
     useEffect(() => {
       Getproduct()
       Gettheme()
+      Getdelivey()
         // accesscheck()
         // Scripts()
     }, [])
@@ -79,6 +81,7 @@ export default function Products() {
           form_data.append("auther",auther)
           form_data.append("price",price)
           form_data.append("color",color)     
+          form_data.append("orientation",orient)     
           try {
             if (theme[0].value){
               theme.forEach(element => {
@@ -151,6 +154,7 @@ export default function Products() {
           setimage(itm.product_image)
           setprice(itm.price)
           setcolor(itm.color)
+          setorient(itm.orientation)
           arraysorttheme(itm)
           setmodal(!modal)
         }
@@ -162,6 +166,7 @@ export default function Products() {
           settheme('')
           setprice('')
           setimage()
+          setorient('')
         }
         const arraysorttheme=(product_array)=>{
           if (product_array.theme.length){
@@ -220,6 +225,10 @@ export default function Products() {
               selector : (itm)=><div style={{backgroundColor:itm.color,height:"40px",width:"40px",borderRadius:"40px"}}><span > </span></div>,
             },
             {
+              name:"Orientation",
+              selector : (itm)=><div >{itm.orientation}</div>,
+            },
+            {
               name:"Theme",
               selector : (itm)=><div>
                 {itm.theme? itm.theme.map((themeitm,fk)=>(
@@ -272,6 +281,33 @@ export default function Products() {
             }
          
           };
+    const Getdelivey=async()=>{
+      try {
+        let data = await Callaxios("get","product/delivery/")
+        // console.log("datadelivery",data)
+        if (data.status===200){
+          if(data.data.length){
+            setdelivery_charge(data.data[0].delivery_charge)
+          }
+          
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  const postdelivery =async()=>{
+    try {
+      let data = await Callaxios("post","product/delivery/",{delivery_charge:delivery_charge})
+      if (data.data.Status===200){
+        notify("Updated Successfully")
+      }
+      else{
+        notifyerror("Something Went Wrong")
+      }
+    } catch (error) {
+      notifyerror("Something Went Wrong")
+    }
+  }
   return (
     <div className='page-wrapper p-3 mt-5'>
        <ToastContainer/>
@@ -293,7 +329,24 @@ export default function Products() {
             <input onChange={(e)=>setsearchvalue(e.target.value)} value={searchvalue} type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
           </div>
         </form>
+        <div className='row mt-1'>
+          <div className='col-6 mt-2 text-end'>
+            <h6>Delivery charge :</h6>
+          </div>
+          <div className='col-6 d-flex'>
+            <div className='col-6 d-flex' >
+          <input onChange={(e)=>setdelivery_charge(e.target.value)} value={delivery_charge} type="text" className="form-control " id="navbarForm" placeholder="Delivery charge" />
+          {/* <b className='mt-2'>AED</b>&nbsp; */}
+          </div>
+          <div className='col-6'>
+          <button onClick={()=>postdelivery()} className='btn btn-sm btn-primary'>submit</button>
+          </div>
+          
+          </div>
         </div>
+        
+        </div>
+        
         </div>
 
         <div className="table-responsive pt-3">
@@ -354,9 +407,19 @@ export default function Products() {
                           isRequired={false}
                         />
                 </div>
-                <div className="mb-3 col-md-6 col-12">
+                <div className="mb-3 col-md-6 col-12" >
                     <label htmlFor="userEmail" className="form-label ">Price</label>
                     <input onChange={(e)=>setprice(e.target.value)}  value={price}   type="text" required  className="form-control" placeholder="Price"  />
+                </div>
+                <div className="mb-3 col-md-6 col-12">
+                    <label htmlFor="userEmail" className="form-label ">Orientation</label>
+                    {/* <input onChange={(e)=>setorient(e.target.value)}  value={orient}   type="text" required  className="form-control" placeholder="Orientaions"  /> */}
+                    <select required onChange={(e)=>setorient(e.target.value)}  value={orient}  className="form-select" id="exampleFormControlSelect1">
+                          <option hidden>Select Orientation</option>
+                          <option value="potrait" >Potrait</option>
+                          <option value="Landscape" >Landscape</option>
+                          <option value="Square">Square</option>
+                        </select>
                 </div>
                 <div className="mb-3 col-md-6 col-12">
                     <label htmlFor="userEmail" className="form-label ">image</label>
