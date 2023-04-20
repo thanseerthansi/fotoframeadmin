@@ -18,6 +18,7 @@ export default function Frame() {
     // const [framedata,setframedata]=useState([])
     const [framename,setframename]=useState('')
     const [image,setimage]=useState()
+    const [mainimage,setmainimage]=useState()
     const [selectframe,setselectframe]=useState()
     const [searchvalue,setsearchvalue]=useState('')
     // console.log("selectframe",selectframe)
@@ -40,6 +41,9 @@ export default function Frame() {
       const form_data = new FormData();  
       if (image instanceof File ){    
             form_data.append("image",image)
+    }
+      if (mainimage instanceof File ){    
+            form_data.append("main_image",mainimage)
     }
       if (framename){
         form_data.append("framename",framename)
@@ -68,6 +72,7 @@ export default function Frame() {
       setselectframe(itm)
       setframename(itm.framename)
       setimage(itm.image)
+      setmainimage(itm.main_image)
       setmodal(!modal)
     }
     const deletetask = async(itmid)=>{
@@ -115,11 +120,14 @@ export default function Frame() {
               // width:"20%",
             },
             {
-              name:"Image",
-              selector : (itm)=><div className='d-flex-col text-center'><img src={itm.image} width={70} className="img-thumbnail" alt="layout images" />
-                
-          </div>,
-            
+              name:"Background Frame",
+              selector : (itm)=><div className='d-flex-col text-center'><img src={itm.image} width={70} className="img-thumbnail" alt="layout images" />               
+              </div>,         
+            },
+            {
+              name:"Main Image",
+              selector : (itm)=><div className='d-flex-col text-center'><img src={itm.main_image} width={70} className="img-thumbnail" alt="layout mainimages" />               
+              </div>,         
             },
             {
               name:"Action",
@@ -161,6 +169,7 @@ export default function Frame() {
       setselectframe('')
       setframename('')
       setimage()
+      setmainimage()
     }
   return (
     <div className='page-wrapper p-3 mt-5'>
@@ -225,7 +234,16 @@ export default function Frame() {
                     <input  onChange={(e)=>setframename(e.target.value)} value={framename} type="text" required  className="form-control" placeholder="Frame name"  />
                 </div>
                 <div className="mb-3 col-12">
-                    <label htmlFor="userEmail" className="form-label ">image</label>
+                    <label htmlFor="userEmail" className="form-label ">Main image</label>
+                    <input onChange={(e)=>setmainimage(e.target.files[0])} value={''}  type="file"   className="form-control" placeholder="main image"  />
+                    {mainimage ?
+                          <div className='m-2'>
+                            <img className='rounded image-size' src={mainimage instanceof File ? URL.createObjectURL(mainimage):mainimage}  alt='img' height="auto" width="auto" />
+                          </div>
+                          :null }
+                </div>
+                <div className="mb-3 col-12">
+                    <label htmlFor="userEmail" className="form-label ">Frame image</label>
                     <input onChange={(e)=>setimage(e.target.files[0])} value={''}  type="file"   className="form-control" placeholder="image"  />
                     {image ?
                           <div className='m-2'>
