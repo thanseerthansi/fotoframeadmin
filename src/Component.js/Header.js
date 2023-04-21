@@ -4,6 +4,7 @@ import { GiWoodFrame } from 'react-icons/gi';
 import { MdFilterFrames,MdOutlineLogout,MdPlace } from 'react-icons/md';
 import { AiFillDashboard ,AiOutlineBorder} from 'react-icons/ai';
 import { HiColorSwatch } from 'react-icons/hi';
+import { ImPriceTags } from 'react-icons/im';
 import { RiFileCopy2Fill,RiProductHuntFill } from 'react-icons/ri';
 import Scripts from './Scripts';
 export default function Header() {
@@ -61,7 +62,13 @@ export default function Header() {
        <span className="link-title "><b>Product theme</b></span>
      </Link>
    </li>
-   
+   <li className="nav-item not-active">
+     <Link to="/frametype" className="nav-link">
+       {/* <i className="link-icon" data-feather="table" /> */}
+       <MdFilterFrames size={22}/>
+       <span className="link-title " style={{paddingLeft:"4px"}}><b>Product Frame type</b></span>
+     </Link>
+   </li>
    <li className="nav-item not-active">
      <Link to="/frame" className="nav-link">
        {/* <i className="link-icon" data-feather="grid" /> */}
@@ -70,12 +77,13 @@ export default function Header() {
      </Link>
    </li>
    <li className="nav-item not-active">
-     <Link to="/frametype" className="nav-link">
-       {/* <i className="link-icon" data-feather="table" /> */}
-       <MdFilterFrames size={22}/>
-       <span className="link-title " style={{paddingLeft:"4px"}}><b>Frame type</b></span>
+     <Link to="/frameprice" className="nav-link">
+       {/* <i className="link-icon" data-feather="grid" /> */}
+       <ImPriceTags  size={25}/>
+       <span className="link-title "><b>Frame Price</b></span>
      </Link>
    </li>
+   
    <li className="nav-item not-active">
      <Link to="/city" className="nav-link">
        {/* <i className="link-icon" data-feather="table" /> */}

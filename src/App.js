@@ -9,6 +9,7 @@ import Framestyle from './Component.js/Framestyle';
 import Producttheme from './Component.js/Productthame';
 import Simplecontextprovider from './Component.js/Simplecontext';
 import City from './Component.js/City';
+import Frameprice from './Component.js/Frameprice';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="frametype" element={<Framestyle/>}/>
           <Route path="producttheme" element={<Producttheme/>}/>
           <Route path="city" element={<City/>}/>
+          <Route path="frameprice" element={<Frameprice/>}/>
         </Route>
       </Routes>
       </Simplecontextprovider>
