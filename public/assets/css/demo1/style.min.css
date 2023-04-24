@@ -27454,3 +27454,11 @@ html{
 /* .rdt_TableRow:hover > td:last-child {
     background-color: #f5f5f5;
   } */
+  .deletebutton{
+    color: red;
+
+  }
+  .deletebutton:hover{
+    color: #980707;
+    cursor: pointer;
+  }

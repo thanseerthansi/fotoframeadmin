@@ -10,9 +10,9 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import DataTable from 'react-data-table-component';
 import Callaxios from './Callaxios';
-import Select from 'react-select';
-import { Simplecontext } from './Simplecontext';
-import { Link } from 'react-router-dom';
+// import Select from 'react-select';
+// import { Simplecontext } from './Simplecontext';
+// import { Link } from 'react-router-dom';
 
 export default function Frameprice() {
 //   const { framedata,Getframe } = useContext(Simplecontext)
@@ -21,10 +21,12 @@ export default function Frameprice() {
     const [selectframeprice,setselectframeprice]=useState('')
     const [size,setsize]=useState('')
     const [frame,setframe]=useState('')
-    const [price,settprice]=useState('')
+    const [price,setprice]=useState('')
+    const [pricelist,setpricelist]=useState()
+    const [noofphoto,setnoofphoto]=useState('')
     const [searchvalue,setsearchvalue]=useState('')
     const [orientation,setorientation]=useState('')
-    
+    // console.log("pricelist",pricelist)
     useEffect(() => {
       GetFrameprice()
       window.scrollTo(0,0);
@@ -52,47 +54,44 @@ export default function Frameprice() {
       }
     }
     const Postframeprice=async(e)=>{
+      console.log("ok")
       e.preventDefault()
       try {
         let body
         let msg
-        let framelist =[]
-        if (frame[0].value){
-          frame.forEach(element => {
-            framelist.push(element.value)
-          });
-        }
+    
         if (selectframeprice){
           body = {
-            frame_type:size,
-            frameid:framelist,
-            price:price,
+            frame:frame,
+            orientation:orientation,
+            price :pricelist,
             id:selectframeprice.id,
           }
           msg = "Successfuly updated"
         }else{
           body ={
-            frame_type:size,
-            frameid:framelist,
-            price:price,
+            frame:frame,
+            orientation:orientation,
+            price :pricelist,
           }
           msg = "Successfuly added"
         }
          
-        let data = await Callaxios("post","frame/frametype/",body)
+        let data = await Callaxios("post","frame/frameprice/",body)
+        console.log("data",data)
         if (data.data.Status===200){
           notify(msg)
           GetFrameprice()
           setmodal(!modal)
         }
       } catch (error) {
-        
+        console.log(error)
       }
     }
     const deletetask = async(itmid)=>{
         
         try {
-          let data =await Callaxios("delete",`frame/frametype/`,{"id":itmid})
+          let data =await Callaxios("delete",`frame/frameprice/`,{"id":itmid})
           if (data.data.Status===200){
             notify("Deleted Successfully")
             GetFrameprice()
@@ -105,27 +104,22 @@ export default function Frameprice() {
       setselectframeprice('')
       setsize('')
       setframe('')
-      settprice('')
+      setprice('')
+      setnoofphoto('')
+      setpricelist()
     }
     const Setvalues=(itm)=>{
       setallnull() 
+      setframe(itm.frame)
+      setorientation(itm.orientation)
+      
       setselectframeprice(itm)
       setsize(itm.frame_type)
-      sortarr(itm)
-      settprice(itm.price)
+      setpricelist(itm.price)
       setmodal(!modal) 
     }
-    const sortarr=(frame_array)=>{
-      if (frame_array.frame.length){
-        const list_item=[]
-        frame_array.frame.forEach(element => {
-          list_item.push( {label:element.framename, value: element.id} ,)
-        });
-        // console.log("listvalue",list_item)
-        setframe(()=>[...list_item])
-      }
-      
-    }
+    
+    
     const submitdelete = (itemid) => {
         confirmAlert({
             title: "Confirmation",
@@ -143,7 +137,55 @@ export default function Frameprice() {
             
         });
         };
-        const rowNumber = (row) => framepricedata.filter(t=>t.frame_type.toUpperCase().includes(searchvalue.toUpperCase())).indexOf(row) + 1;
+        const pricelisthandler=()=>{
+          let sellprice = pricelist
+          if (noofphoto){
+            if (size){
+              if (price){
+                // let array =[]
+                // sellprice.split(",").forEach(element => {
+                //   array.push(element.split("-")[0])
+                // });
+                // console.log("array",array)
+                // if (noofphoto in array){
+                //   notifyerror("Already added")
+                //   return
+                // }
+                let list=''
+                let pp_ls =noofphoto+"-"+size+"-"+price 
+                if (pricelist){
+                  list = sellprice.concat(",",pp_ls)
+                }else{
+                  list = pp_ls
+                }
+                setpricelist(list)
+                setprice('')
+                setnoofphoto('')
+                setsize('')
+              }else{
+                notifyerror("Price is empty")
+                return
+              }
+            }else{
+              notifyerror("Size is empty")
+              return
+            }
+          }else{
+            notifyerror("Select No of Photos")
+            return
+          }
+        }
+        const deletelisthandle=(k)=>{
+          let array =[]
+          let string = pricelist
+          // let slice = string.slice(k,1)
+          string.split(',').forEach(element=>
+              array.push(element)
+          )
+          array.splice(k,1)
+          setpricelist(array.toString())
+        }
+        const rowNumber = (row) => framepricedata.filter(t=>t.frame.toUpperCase().includes(searchvalue.toUpperCase())).indexOf(row) + 1;
         const columns =[
     
           {
@@ -153,23 +195,25 @@ export default function Frameprice() {
           },
           {
             name:"Frame",
-            selector : (itm)=><div>{itm.frame_type}</div>,
+            selector : (itm)=><div>{itm.frame}</div>,
             // width:"20%",
           },
           {
-            name:"size",
+            name:"Orientation",
             selector : (itm)=><div className='d-flex-col'>
-              {itm.frame? itm.frame.map((frameitm,fk)=>(
-                <ul key={fk}>
-                  <li>{frameitm.framename}</li>
-                </ul>
-              )) :null} 
+              {itm.orientation}
             </div>,
           
           },
           {
             name:"Price",
-            selector : (itm)=><div className='d-flex-col'>{itm.price}</div>,
+            selector : (itm)=><div className='d-flex-col'>
+              <b>Noof Photo-Size-Price</b>
+              {itm.price.split(',').map((ptitm,pk)=>(            
+              <ul key={pk}> 
+                <li>{ptitm}</li>
+              </ul>
+            ))}</div>,
           
           },
           {
@@ -264,8 +308,8 @@ export default function Frameprice() {
             <div className='row text-start'>          
                 <div className="mb-3  col-6">
                     <label htmlFor="select" className="form-label ">Frames <b>*</b> </label>
-                    <select required onChange={(e)=>setframe(e.target.value)} className="form-select" id="exampleFormControlSelect1">
-                          <option hidden>Select frame</option>
+                    <select required onChange={(e)=>setframe(e.target.value)} value={frame} className="form-select" >
+                          <option hidden value='' >Select frame</option>
                           <option  value='print' >print</option>
                           <option value="miniframe" >Mini Frame</option>
                           <option  value="college" >College</option>
@@ -274,9 +318,9 @@ export default function Frameprice() {
                 </div>
                 {frame==="college"||frame==="canvas"?
                 <div className="mb-3  col-6" >
-                    <label htmlFor="select" className="form-label ">Orientation <b>*</b> </label>
-                    <select required  onChange={(e)=>setorientation(e.target.value)} className="form-select" id="exampleFormControlSelect1">
-                          <option hidden>Select Orientation</option>
+                    <label htmlFor="select"  className="form-label ">Orientation <b>*</b> </label>
+                    <select required  onChange={(e)=>setorientation(e.target.value)} value={orientation} className="form-select" id="exampleFormControlSelect1">
+                          <option hidden value='' >Select Orientation</option>
                           <option  value="landscape" >Landscape</option>
                           <option value="portait" >portait</option>
                           <option  vlaue ="square" >square</option>
@@ -285,11 +329,12 @@ export default function Frameprice() {
                         
                 </div>
                 :null}
-                <div className='border border-solid py-2 row'>
-                    <div className='col-6'>
-                <div className="mb-3  col-12">
+                {frame? 
+                <div className='border border-solid py-2 row' >
+                    <div className='col-12 col-md-6'>
+                <div className="mb-3   col-12">
                     <label htmlFor="select" className="form-label ">NO of photos <b>*</b> </label>
-                    <select required  className="form-select" id="exampleFormControlSelect1">
+                    <select onChange={(e)=>setnoofphoto(e.target.value)} value={noofphoto} className="form-select" id="exampleFormControlSelect1">
                           <option hidden>Select no of photos</option>
                           {frame==="miniframe"||frame==="canvas"||frame==="print"?<option>1</option>:null}
                           {frame==="college"?orientation==="landscape"||orientation==="portait"?<option   >2</option>:null:null}
@@ -304,20 +349,27 @@ export default function Frameprice() {
                 </div>
                 <div className="mb-3 col-12">
                     <label htmlFor="userEmail" className="form-label ">Size <b>*</b> </label>
-                    <input onChange={(e)=>settprice(e.target.value)} value={price} type="text" required  className="form-control" placeholder="Size"  />
+                    <input onChange={(e)=>setsize(e.target.value)} value={size} type="text"   className="form-control" placeholder="Size"  />
                 </div>
                 <div className="mb-3 col-12">
                     <label htmlFor="userEmail" className="form-label ">Price <b>*</b> </label>
-                    <input onChange={(e)=>settprice(e.target.value)} value={price} type="text" required  className="form-control" placeholder="Price"  />
+                    <input onChange={(e)=>setprice(e.target.value)} value={price} type="text"   className="form-control" placeholder="Price"  />
                 </div>
                 <div className='text-end'>
-                <button type='button' className='btn btn-primary '>Add</button>
+                <button onClick={()=>pricelisthandler()} type='button' className='btn btn-primary '>Add</button>
                 </div>
                 </div>
-                <div className='col-6'>
-                    print data
+                <div className='col-12 col-md-6'>
+                  <b style={pricelist?{display:"block"}:{display:'none'}}>Noof Photos-size-price</b>
+                  {pricelist?pricelist.split(',').map((itm,k)=>(
+                    <ul key={k}>
+                    <li>{itm} &nbsp; <RiDeleteBin6Line  onClick={()=>deletelisthandle(k)} className='deletebutton'/></li>
+                  </ul>
+                  )):null}
+                    
                 </div>
                 </div>
+                :null}
             </div>
         <div />
         </div>
