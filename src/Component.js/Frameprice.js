@@ -142,15 +142,21 @@ export default function Frameprice() {
           if (noofphoto){
             if (size){
               if (price){
-                // let array =[]
-                // sellprice.split(",").forEach(element => {
-                //   array.push(element.split("-")[0])
-                // });
+                let array =[]
+                if (sellprice){
+                  // console.log("sellprice",sellprice)
+                  sellprice.split(",").forEach(element => {
+                    array.push(element.split("-")[0])
+                    // console.log("element",element)
+                  });
+                }
+                
                 // console.log("array",array)
-                // if (noofphoto in array){
-                //   notifyerror("Already added")
-                //   return
-                // }
+                // console.log("noofphoto",noofphoto)
+                if (array.includes(noofphoto)){
+                  notifyerror("Already added")
+                  return
+                }
                 let list=''
                 let pp_ls =noofphoto+"-"+size+"-"+price 
                 if (pricelist){

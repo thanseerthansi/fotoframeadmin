@@ -31,7 +31,7 @@ export default function Orders() {
     const Getorders =async()=>{
       try {
         let data  = await Callaxios("get","order/orders/")
-        // console.log("order date",data)
+        console.log("order date",data)
         if (data.status===200){
             setorderdata(data.data)
         }
@@ -43,8 +43,11 @@ export default function Orders() {
         notify("delete")    
     }
     const orderfunction=(itm)=>{
-      let order_qs = orderproductdata.filter(t=>t.order.id===itm.id)
-      return order_qs[0]
+      if (orderproductdata){
+        let order_qs = orderproductdata.filter(t=>t.order.id===itm.id)
+        return order_qs[0]
+      }else{return null}
+      
       
     }   
         const columns =[
@@ -56,18 +59,19 @@ export default function Orders() {
             },
             {
               name:"SN.NO",
-              selector : (itm)=><div>F{orderfunction(itm).created_date.split('T')[1].split('.')[1]}f{orderfunction(itm).id}</div>,
+              selector : (itm)=><div>F{itm.created_date.split('T')[1].split('.')[1]}f{itm.id}</div>,
+              // selector : (itm)=><div>F{orderdata.created_date.split('T')[1].split('.')[1]}f{orderdata.id}</div>,
               // width:"10%",
             },
             {
               name:"Customer",
-              selector : (itm)=><div>{orderfunction(itm).customer}</div>,
+              selector : (itm)=><div>{itm.Customer_name}</div>,
               width:"20%",
              
             },
             {
               name:"Address",
-              selector : (itm)=><div>{orderfunction(itm).address}</div>,
+              selector : (itm)=><div>{itm.address}</div>,
         
             },
             {
@@ -146,7 +150,7 @@ export default function Orders() {
             pagination
             // highlightOnHover
             columns={columns}
-            data={orderproductdata}               
+            data={orderdata}               
             defaultSortField="_id"
             defaultSortAsc={false}               
             paginationRowsPerPageOptions={[10,20,50,100]}
