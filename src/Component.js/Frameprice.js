@@ -22,11 +22,11 @@ export default function Frameprice() {
     const [size,setsize]=useState('')
     const [frame,setframe]=useState('')
     const [price,setprice]=useState('')
-    const [pricelist,setpricelist]=useState()
+    const [pricelist,setpricelist]=useState('')
     const [noofphoto,setnoofphoto]=useState('')
     const [searchvalue,setsearchvalue]=useState('')
     const [orientation,setorientation]=useState('')
-    // console.log("pricelist",pricelist)
+    console.log("frame",frame)
     useEffect(() => {
       GetFrameprice()
       window.scrollTo(0,0);
@@ -153,10 +153,15 @@ export default function Frameprice() {
                 
                 // console.log("array",array)
                 // console.log("noofphoto",noofphoto)
-                if (array.includes(noofphoto)){
-                  notifyerror("Already added")
-                  return
-                }
+                if(frame==="canvas"|| frame==="print"){
+                 
+                  }else{
+                    if (array.includes(noofphoto)){
+                      notifyerror("Already added")
+                      return
+                  }
+                } 
+                
                 let list=''
                 let pp_ls =noofphoto+"-"+size+"-"+price 
                 if (pricelist){
@@ -322,7 +327,7 @@ export default function Frameprice() {
                           <option  value="canvas" >canvas</option>                        
                         </select>                                        
                 </div>
-                {frame==="college"||frame==="canvas"?
+                {frame==="college"||frame==="canvas"||frame==="print"?
                 <div className="mb-3  col-6" >
                     <label htmlFor="select"  className="form-label ">Orientation <b>*</b> </label>
                     <select required  onChange={(e)=>setorientation(e.target.value)} value={orientation} className="form-select" id="exampleFormControlSelect1">
