@@ -27462,3 +27462,9 @@ html{
     color: #980707;
     cursor: pointer;
   }
+  .fontbold{
+    font-weight: 500;
+  }
+  .aed{
+    font-size:11px
+  }

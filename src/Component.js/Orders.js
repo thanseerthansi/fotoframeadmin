@@ -92,6 +92,11 @@ export default function Orders() {
         
             },
             {
+              name:"Price",
+              selector : (itm)=><div className='d-flex-col text-center'>{itm.total_price } <span className='aed'> AED</span></div>,
+           
+            },
+            {
               name:"Date",
               selector : (itm)=><div className='d-flex-col text-center'>{moment(itm.created_date).format("MMMM Do YYYY, h:mm:ss a")}</div>,
            

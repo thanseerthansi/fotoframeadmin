@@ -46,37 +46,37 @@ export default function OrderProducts() {
       
       
     }   
-        const columns =[
+        // const columns =[
     
-            {
-              name: <div>#</div>,
-              selector: (itm,index) =>index+1,
-              width:"50px",
-            },
-            {
-              name:"Order.No",
-              selector : (itm)=><div>F{itm.created_date.split('T')[1].split('.')[1]}f{itm.id}</div>,
-              // selector : (itm)=><div>F{orderdata.created_date.split('T')[1].split('.')[1]}f{orderdata.id}</div>,
+        //     {
+        //       name: <div>#</div>,
+        //       selector: (itm,index) =>index+1,
+        //       width:"50px",
+        //     },
+        //     {
+        //       name:"Order.No",
+        //       selector : (itm)=><div>F{itm.created_date.split('T')[1].split('.')[1]}f{itm.id}</div>,
+        //       // selector : (itm)=><div>F{orderdata.created_date.split('T')[1].split('.')[1]}f{orderdata.id}</div>,
               
-            },
-            {
-              name:"Customer",
-              selector : (itm)=><div>{itm.Customer_name}</div>,
+        //     },
+        //     {
+        //       name:"Customer",
+        //       selector : (itm)=><div>{itm.Customer_name}</div>,
               
              
-            },
-            {
-              name:"Status",
-              selector : (itm)=><div>{itm.status}</div>,
+        //     },
+        //     {
+        //       name:"Status",
+        //       selector : (itm)=><div>{itm.status}</div>,
         
-            },
-            {
-              name:"Date",
-              selector : (itm)=><div className='d-flex-col text-center'>                    
-          </div>,
+        //     },
+        //     {
+        //       name:"Date",
+        //       selector : (itm)=><div className='d-flex-col text-center'>                    
+        //   </div>,
            
-            },
-          ]
+        //     },
+        //   ]
          
           const customStyles = {
             cells: {
@@ -117,16 +117,19 @@ export default function OrderProducts() {
         </div>
         <div className='row '>
             <div className='col-6 d-flex'>              
-                <h6>Customer: </h6>{orderp?orderp.Customer_name:null}
+                <span className='fontbold'>Customer : </span><span >{orderp?orderp.Customer_name:null}</span>
             </div>
             <div className='col-6 d-flex'>              
-                <h6>Email: {orderp?orderp. email:null}</h6>
+                <span className='fontbold'>Email : </span>{orderp?orderp. email:null}
             </div>
             <div className='col-6 d-flex'>              
-                <h6>Address: {orderp?orderp.address:null}</h6>
+                <span className='fontbold'>Address : </span>{orderp?orderp.address:null}
             </div>
             <div className='col-6 d-flex'>               
-                <h6>Contact: {orderp?orderp.contact:null}</h6>
+                <span className='fontbold'>Contact : </span>{orderp?orderp.contact:null}
+            </div>
+            <div className='col-6 d-flex'>               
+                <span className='fontbold'>Contact : </span>{orderp?orderp.city:null}
             </div>
 
         </div>
@@ -135,27 +138,39 @@ export default function OrderProducts() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Vessel</th>
-                <th>Action</th>
+                <th>Products</th>
+                <th>Orientation</th>
+                <th>Frame</th>
+                <th>Size</th>
+                <th>Status</th>
+                <th>Price</th>
+                
                 
                 
               </tr>
             </thead>
             <tbody>
-              {/* {categorydata.length? categorydata.filter(t=>t.name.toLowerCase().includes(searchvalue)).map((itm,k)=>( */}
-                <tr >
-                <td>1</td>
+              {orderfunction().length?orderfunction().map((itm,k)=>(
+                <tr key={k}>
+                <td>{k+1}</td>
+                <td>{itm.product_type}</td>
+                <td>{}</td>
                 <td>name</td>
-                <td>
-                  <ul className='text-center'>
-                    <li className='list-group-item '>
-                      <button onClick={()=> setmodal(!modal)} className='btn btn-warning btn-xs edit-btn' ><BiEdit size={15}/>edit</button>
-                    </li>
-                    
-                  </ul>
-                </td>
+                <td>name</td>
+                <td>name</td>
+                <td>{itm.price} <span className='aed'>AED</span></td>
+                {/* <td>name</td> */}
+                
               </tr>
-              {/* )):null} */}
+             )):null}
+             <tr>
+              <td colSpan={6} className='text-end'>Shipping</td>
+              <td colSpan={1} className=''>{orderp?orderp.shipping:null}</td>
+             </tr>
+             <tr>
+              <td colSpan={6} className='text-end'>Total</td>
+              <td colSpan={1} className=''>{orderfunction()?orderfunction().reduce((n, {price}) => n + parseInt(price), 0)+parseInt(orderp?orderp.shipping:null):null}<span className='aed'> AED</span></td>
+             </tr>
               
              
             </tbody>
