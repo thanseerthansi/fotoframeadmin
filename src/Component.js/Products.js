@@ -26,6 +26,9 @@ export default function Products() {
     const [selectproduct,setselectproduct]=useState('')
     const [searchvalue,setsearchvalue]=useState('')
     const [delivery_charge,setdelivery_charge]=useState(0)
+    const [sizes,setsizes]=useState('')
+    const [sizeprice,setsizeprice]=useState('')
+    const [sizeorientation,setsizeorientation]=useState('')
     
     // const []
   
@@ -82,6 +85,7 @@ export default function Products() {
           form_data.append("price",price)
           form_data.append("color",color)     
           form_data.append("orientation",orient)     
+          form_data.append("sizes",sizes)     
           try {
             if (theme[0].value){
               theme.forEach(element => {
@@ -167,6 +171,9 @@ export default function Products() {
           setprice('')
           setimage()
           setorient('')
+          setsizes('')
+          setsizeorientation('')
+          setsizeprice('')
         }
         const arraysorttheme=(product_array)=>{
           if (product_array.theme.length){
@@ -245,6 +252,18 @@ export default function Products() {
               selector : (itm)=><div>{itm.price}</div>,
             },
             {
+              name:"Sizes",
+              selector : (itm)=><div className='d-flex-col'>
+                {itm.sizes?<>
+              <b>Size-Price</b>
+              {itm.sizes?itm.sizes.split(',').map((ptitm,pk)=>(            
+              <ul key={pk}> 
+                <li>{ptitm}</li>
+              </ul>
+            )):null}</>:null}</div>,
+            width:"160px",
+            },
+            {
               name:"Action",
               selector : (itm)=><div className='d-flex'><div>
               <button onClick={()=>edittheme(itm)} className='btn btn-warning btn-xs '><BiEdit size={15} /></button>
@@ -306,6 +325,33 @@ export default function Products() {
       }
     } catch (error) {
       notifyerror("Something Went Wrong")
+    }
+  }
+  const deletelisthandle=(k)=>{
+    let array =[]
+    let string = sizes
+    // let slice = string.slice(k,1)
+    string.split(',').forEach(element=>
+        array.push(element)
+    )
+    array.splice(k,1)
+    setsizes(array.toString())
+  }
+  const sizepricehandler=()=>{
+    let sellprice = sizes
+    if (sizeorientation){
+      if(sizeprice){
+        let list=''
+        let pp_ls =sizeorientation+"-"+sizeprice 
+        if (sellprice){
+          list = sellprice.concat(",",pp_ls)
+        }else{
+          list = pp_ls
+        }
+        setsizes(list)
+        setsizeorientation('')
+        setsizeprice('')
+      }
     }
   }
   return (
@@ -429,6 +475,31 @@ export default function Products() {
                             <img className='rounded image-size' src={image instanceof File ? URL.createObjectURL(image):image}  alt='img' height="auto" width="auto" />
                           </div>
                           :null }
+                </div>
+                <div className="mb-3 col-md-6 col-12 ">
+                    <label htmlFor="userEmail" className="form-label ">Sizes</label>
+                    <b style={sizes?{display:"block"}:{display:'none'}}>Noof Photos-size-price</b>
+                  {sizes?sizes.split(',').map((itm,k)=>(
+                    <ul key={k}>
+                    <li>{itm} &nbsp; <RiDeleteBin6Line  onClick={()=>deletelisthandle(k)} className='deletebutton'/></li>
+                  </ul>
+                  )):null}
+                    <div className='row border py-2'>
+                      <div className='col-12 '>
+                      <label htmlFor="userEmail" className="form-label ">Size</label>
+                      <input   type="text" onChange={(e)=>setsizeorientation(e.target.value)}  value={sizeorientation}   className="form-control" placeholder="size"  />
+                      </div>
+                      <div className='col-12 '>
+                      <label htmlFor="userEmail" className="form-label ">Price</label>
+                      <input   type="text" onChange={(e)=>setsizeprice(e.target.value)}  value={sizeprice}   className="form-control" placeholder="price"  />
+                      </div>
+                      <div className='text-end pt-1'>
+                      <button onClick={()=>sizepricehandler()} type='button' className='btn btn-primary '>Add</button>
+                      </div>
+                      
+                   
+                    </div>
+                    
                 </div>
                 
                

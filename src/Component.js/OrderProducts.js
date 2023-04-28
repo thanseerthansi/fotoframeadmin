@@ -9,17 +9,19 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import DataTable from 'react-data-table-component';
 import { Simplecontext } from './Simplecontext';
 import Callaxios from './Callaxios';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
-
-export default function Orders() {
+import { useLocation } from 'react-router-dom';
+export default function OrderProducts() {
     const { orderproductdata,Getorderproduct } = useContext(Simplecontext)
     const [modal,setmodal]=useState(false)
     const [orderdata,setorderdata]=useState([])
     const [searchvalue,setsearchvalue]=useState('')
-    
+    let location = useLocation();
+    let orderp = location.state?location.state.someArray:""
+    console.log("array",orderp)
+  
     useEffect(() => {
-      Getorders()
+       
+        window.scrollTo(0,0);
         // accesscheck()
         // Scripts()
     }, [])
@@ -31,33 +33,19 @@ export default function Orders() {
         position: "top-left",
         theme: "dark",
         });
-    const Getorders =async()=>{
-      try {
-        let data  = await Callaxios("get","order/orders/")
-        console.log("order date",data)
-        if (data.status===200){
-            setorderdata(data.data)
-        }
-      } catch (error) {
-        notifyerror("Something went wrong ")
-      }
-    }
-    const deletetask = async(itmid)=>{
-        notify("delete")    
-    }
-    const orderfunction=(itm)=>{
+    
+    
+    const orderfunction=()=>{
+        console.log("orders",orderproductdata)
+        console.log("orderp.id",orderp.id)
       if (orderproductdata){
-        let order_qs = orderproductdata.filter(t=>t.order.id===itm.id)
-        return order_qs[0]
+        let order_qs = orderproductdata.filter(t=>t.order[0].id===orderp.id)
+        console.log("orderqs",order_qs)
+        return order_qs
       }else{return null}
       
       
     }   
-    // const datefield =(date)=>{
-    //   console.log("olddate",date)
-    //   let convert_date = <Moment date={date} />
-    //   console.log("date",convert_date)
-    // }
         const columns =[
     
             {
@@ -67,7 +55,7 @@ export default function Orders() {
             },
             {
               name:"Order.No",
-              selector : (itm)=><div><Link to={{pathname: "/orderproduct"}} state={{someArray:itm}}>F{itm.created_date.split('T')[1].split('.')[1]}f{itm.id}</Link></div>,
+              selector : (itm)=><div>F{itm.created_date.split('T')[1].split('.')[1]}f{itm.id}</div>,
               // selector : (itm)=><div>F{orderdata.created_date.split('T')[1].split('.')[1]}f{orderdata.id}</div>,
               
             },
@@ -79,21 +67,13 @@ export default function Orders() {
             },
             {
               name:"Status",
-              selector : (itm)=><div className='p-2'>{itm.status}
-              <button  disabled className='h-auto w-auto rounded  p-1  ' >{itm.status}</button>
-              <br/><select className='form-select mt-1' >
-                <option value='' hidden>Change Status</option>
-                <option>New</option>
-                <option>Dispatch</option>
-                <option>Delivered</option>
-                <option>Delete</option>
-              </select>
-              </div>,
+              selector : (itm)=><div>{itm.status}</div>,
         
             },
             {
               name:"Date",
-              selector : (itm)=><div className='d-flex-col text-center'>{moment(itm.created_date).format("MMMM Do YYYY, h:mm:ss a")}</div>,
+              selector : (itm)=><div className='d-flex-col text-center'>                    
+          </div>,
            
             },
           ]
@@ -131,7 +111,7 @@ export default function Orders() {
         <div className='row ' >
           <div className='col-6' >
         <h6 className="card-title text-start text-bold">Orders</h6>
-        {/* <div className='text-start'><button onClick={()=>setmodal(!modal)} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div> */}
+        <div className='text-start'><button onClick={()=>setmodal(!modal)} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div>
         </div>
         <div className='col-6'>
         <form className="search-form ml-auto">
@@ -146,6 +126,7 @@ export default function Orders() {
         </div>
 
         <div className="table-responsive pt-3">
+            
         <DataTable
             pagination
             // highlightOnHover
@@ -206,7 +187,7 @@ export default function Orders() {
   </div>
 </div>
 
-  {/* <div className="modal " id="exampleModalCenter" tabIndex={1} aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style={modal===true ? {display: 'block', paddingRight: 17}:{display:'none'}}>
+  <div className="modal " id="exampleModalCenter" tabIndex={1} aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style={modal===true ? {display: 'block', paddingRight: 17}:{display:'none'}}>
   <div className="modal-dialog modal-dialog-centered modal-lg box-shadow-blank" >
     <div className="modal-content"><div className="modal-header">
       <h5 className="modal-title" id="exampleModalCenterTitle">Tasks</h5>
@@ -261,7 +242,7 @@ export default function Orders() {
       </form>
       </div>
     </div>
-  </div> */}
+  </div>
     </div>
   )
 }

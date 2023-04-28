@@ -10,6 +10,7 @@ import Producttheme from './Component.js/Productthame';
 import Simplecontextprovider from './Component.js/Simplecontext';
 import City from './Component.js/City';
 import Frameprice from './Component.js/Frameprice';
+import OrderProducts from './Component.js/OrderProducts';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="producttheme" element={<Producttheme/>}/>
           <Route path="city" element={<City/>}/>
           <Route path="frameprice" element={<Frameprice/>}/>
+          <Route path="orderproduct" element={<OrderProducts/>}/>
         </Route>
       </Routes>
       </Simplecontextprovider>
