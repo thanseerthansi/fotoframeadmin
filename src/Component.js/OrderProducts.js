@@ -110,78 +110,58 @@ export default function OrderProducts() {
       <div className="card-body">
         <div className='row ' >
           <div className='col-6' >
-        <h6 className="card-title text-start text-bold">Orders</h6>
-        <div className='text-start'><button onClick={()=>setmodal(!modal)} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div>
+        <h6 className="card-title text-start text-bold">Order detail</h6>
+        {/* <div className='text-start'><button onClick={()=>setmodal(!modal)} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div> */}
         </div>
-        <div className='col-6'>
-        <form className="search-form ml-auto">
-          <div className="input-group">
-            <div className="input-group-text">
-              <BiSearch/>
+       
+        </div>
+        <div className='row '>
+            <div className='col-6 d-flex'>              
+                <h6>Customer: </h6>{orderp?orderp.Customer_name:null}
             </div>
-            <input  type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
-          </div>
-        </form>
-        </div>
-        </div>
+            <div className='col-6 d-flex'>              
+                <h6>Email: {orderp?orderp. email:null}</h6>
+            </div>
+            <div className='col-6 d-flex'>              
+                <h6>Address: {orderp?orderp.address:null}</h6>
+            </div>
+            <div className='col-6 d-flex'>               
+                <h6>Contact: {orderp?orderp.contact:null}</h6>
+            </div>
 
+        </div>
         <div className="table-responsive pt-3">
-            
-        <DataTable
-            pagination
-            // highlightOnHover
-            columns={columns}
-            data={orderdata}               
-            defaultSortField="_id"
-            defaultSortAsc={false}               
-            paginationRowsPerPageOptions={[10,20,50,100]}
-            // fixedHeader
-            // fixedHeaderScrollHeight='63vh'
-            // className="tablereact  tablereact "
-            customStyles={customStyles}
-        />
-          {/* <table className="table table-bordered">
+          <table className="table table-bordered">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Vessel</th>
-                <th>Job Details</th>
-                <th>Engineer</th>
-                <th>Port</th>
-                <th>ETA</th>
-                <th>ETD</th>
                 <th>Action</th>
+                
+                
               </tr>
             </thead>
             <tbody>
-             
+              {/* {categorydata.length? categorydata.filter(t=>t.name.toLowerCase().includes(searchvalue)).map((itm,k)=>( */}
                 <tr >
                 <td>1</td>
                 <td>name</td>
-                <td>job</td>
-                <td>engineer</td>
-                <td>port</td>
-                <td>11/02/2023</td>
-                <td>12/02/2023</td>
                 <td>
                   <ul className='text-center'>
                     <li className='list-group-item '>
                       <button onClick={()=> setmodal(!modal)} className='btn btn-warning btn-xs edit-btn' ><BiEdit size={15}/>edit</button>
                     </li>
-                    <li className='list-group-item mt-1' >
                     
-                      <button onClick={()=>submitdelete()} className='btn btn-danger btn-xs' ><RiDeleteBin6Line size={15} />delete</button>
-                    </li>
                   </ul>
                 </td>
               </tr>
-             
+              {/* )):null} */}
               
              
             </tbody>
-          </table> */}
-          
+          </table>
         </div>
+       
       </div>
     </div>
   </div>
