@@ -83,10 +83,10 @@ export default function Orders() {
               <button  disabled className='h-auto w-auto rounded  p-1  ' >{itm.status}</button>
               <br/><select className='form-select mt-1' >
                 <option value='' hidden>Change Status</option>
-                <option>New</option>
-                <option>Dispatch</option>
-                <option>Delivered</option>
-                <option>Delete</option>
+                <option value="new">New</option>
+                <option value="dispatch">Dispatch</option>
+                <option value="delivered">Delivered</option>
+                <option value="delete">Delete</option>
               </select>
               </div>,
         

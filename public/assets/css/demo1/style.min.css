@@ -27468,3 +27468,9 @@ html{
   .aed{
     font-size:11px
   }
+.pointerviewb{
+    cursor: pointer;
+}
+.pointerviewb:hover{
+    color:#0057ff;
+}

@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import { BiSearch,BiAddToQueue,BiEdit } from 'react-icons/bi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import { AiOutlineEye } from 'react-icons/ai';
 // import Scripts from './Scripts';
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -129,7 +130,7 @@ export default function OrderProducts() {
                 <span className='fontbold'>Contact : </span>{orderp?orderp.contact:null}
             </div>
             <div className='col-6 d-flex'>               
-                <span className='fontbold'>Contact : </span>{orderp?orderp.city:null}
+                <span className='fontbold'>City : </span>{orderp?orderp.city:null}
             </div>
 
         </div>
@@ -139,10 +140,11 @@ export default function OrderProducts() {
               <tr>
                 <th>#</th>
                 <th>Products</th>
+                <th>Images</th>
                 <th>Orientation</th>
                 <th>Frame</th>
-                <th>Size</th>
-                <th>Status</th>
+                <th >Size</th>
+                {/* <th style={{width:"180px"}}>Status</th> */}
                 <th>Price</th>
                 
                 
@@ -153,11 +155,21 @@ export default function OrderProducts() {
               {orderfunction().length?orderfunction().map((itm,k)=>(
                 <tr key={k}>
                 <td>{k+1}</td>
-                <td>{itm.product_type}</td>
-                <td>{}</td>
-                <td>name</td>
-                <td>name</td>
-                <td>name</td>
+                <td>{itm.product_type} <u className='hover pointerviewb' ><AiOutlineEye size={15} /> Preview</u></td>
+                <td>Download</td>
+                <td>{itm.orientation}</td>
+                <td>{itm.frame?.[0].framename??""}</td>
+                <td>{itm.size}</td>
+                {/* <td><div className='p-2'>{itm.status}
+              <button  disabled className='h-auto w-auto rounded  p-1  ' >{itm.status}</button>
+              <br/><select className='form-select mt-1' >
+                <option value='' hidden>Change Status</option>
+                <option>New</option>
+                <option>Dispatch</option>
+                <option>Delivered</option>
+                <option>Delete</option>
+              </select>
+              </div></td> */}
                 <td>{itm.price} <span className='aed'>AED</span></td>
                 {/* <td>name</td> */}
                 
