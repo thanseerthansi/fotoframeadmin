@@ -11,14 +11,18 @@ import DataTable from 'react-data-table-component';
 import { Simplecontext } from './Simplecontext';
 import Callaxios from './Callaxios';
 import { useLocation } from 'react-router-dom';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { ListManager } from 'react-beautiful-dnd-grid';
 export default function OrderProducts() {
     const { orderproductdata,Getorderproduct } = useContext(Simplecontext)
     const [modal,setmodal]=useState(false)
     const [orderdata,setorderdata]=useState([])
     const [searchvalue,setsearchvalue]=useState('')
+    const [selectitm,setselectitm]=useState('')
     let location = useLocation();
     let orderp = location.state?location.state.someArray:""
     console.log("array",orderp)
+    console.log("selectitm",selectitm)
   
     useEffect(() => {
        
@@ -37,8 +41,8 @@ export default function OrderProducts() {
     
     
     const orderfunction=()=>{
-        console.log("orders",orderproductdata)
-        console.log("orderp.id",orderp.id)
+        // console.log("orders",orderproductdata)
+        // console.log("orderp.id",orderp.id)
       if (orderproductdata){
         let order_qs = orderproductdata.filter(t=>t.order[0].id===orderp.id)
         console.log("orderqs",order_qs)
@@ -155,7 +159,8 @@ export default function OrderProducts() {
               {orderfunction().length?orderfunction().map((itm,k)=>(
                 <tr key={k}>
                 <td>{k+1}</td>
-                <td>{itm.product_type} <u className='hover pointerviewb' ><AiOutlineEye size={15} /> Preview</u></td>
+                <td>{itm.product.length?itm.product[0].product_name:itm.product_type} 
+                <br/><u onClick={()=>setmodal(!modal)&setselectitm(itm)} className='hover pointerviewb' ><AiOutlineEye size={15} /> Preview</u></td>
                 <td>Download</td>
                 <td>{itm.orientation}</td>
                 <td>{itm.frame?.[0].framename??""}</td>
@@ -197,55 +202,124 @@ export default function OrderProducts() {
   <div className="modal " id="exampleModalCenter" tabIndex={1} aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style={modal===true ? {display: 'block', paddingRight: 17}:{display:'none'}}>
   <div className="modal-dialog modal-dialog-centered modal-lg box-shadow-blank" >
     <div className="modal-content"><div className="modal-header">
-      <h5 className="modal-title" id="exampleModalCenterTitle">Tasks</h5>
+      <h5 className="modal-title" id="exampleModalCenterTitle"></h5>
       <button onClick={()=>setmodal(!modal)} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="btn-close" />
       </div>
       <form className="forms-sample" >
         <div className="modal-body">
-            <div className='row text-start'>
-                <div className="mb-3  col-6">
-                    <label htmlFor="select" className="form-label ">Vessel</label>
-                    <select required  className="form-select" id="exampleFormControlSelect1">
-                          <option hidden>Select Vessel</option>
-                          <option  >vessel 1</option>
-                          <option   >Vessel 2</option>
-                        </select>
-                </div>
-                <div className="mb-3 col-6">
-                    <label htmlFor="userEmail" className="form-label ">Job Details</label>
-                    <input type="text" required  className="form-control" placeholder="Job Details"  />
-                </div>
-                <div className="mb-3  col-6">
-                    <label htmlFor="select" className="form-label ">Engineer</label>
-                    <select required  className="form-select" id="exampleFormControlSelect1">
-                          <option hidden>Select Engineer</option>
-                          <option  >engineer  1</option>
-                          <option   >Engineer 2</option>
-                        </select>
-                </div>
-                <div className="mb-3  col-6">
-                    <label htmlFor="select" className="form-label ">Port</label>
-                    <select required  className="form-select" id="exampleFormControlSelect1">
-                          <option hidden>Select Port</option>
-                          <option  >Port 1</option>
-                          <option   >Port 2</option>
-                        </select>
-                </div>
-                <div className="mb-3 col-6">
-                    <label htmlFor="userEmail" className="form-label ">ETA</label>
-                    <input type="date" required  className="form-control" placeholder="Job Details"  />
-                </div>
-                <div className="mb-3 col-6">
-                    <label htmlFor="userEmail" className="form-label ">ETD</label>
-                    <input type="date" required  className="form-control" placeholder="Job Details"  />
-                </div>
+            
+        {selectitm.product_name==="Mini Frame"?
+        <div className='row'>
+        {selectitm? selectitm.image_url.map((itm,k)=>(
+            <div key={k} className='col-12 col-md-6 '>
+            <div className="mt-2 item">
+              <figure className='framebox-shadow' >
+              <img src="/assets/img/photos/black-frame.png" alt="example"  style={{width:"100%"}} /> 
+              <img src={itm} alt="img" className='minimage' style={selectitm.frame_look==="MODERN"?{width:"94%"}:{width:"94%",padding:"10px"}} />             
+               
+              </figure>
             </div>
+            </div>
+            ))
+            :null}</div>
+            :selectitm.product_name==="College" & selectitm.orientation==="LandScape"?
+            <div className="overflowbar " >  
+            {selectitm.image_url.length ? 
+            <div className={"d-flex border-cp framebox-shadow"} style={selectitm.image_url.length===2?{width:"500px",height:"100%",margin:"auto",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.length===3?{width:"780px",height:"200px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"1049px",height:"200px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+              
+            {selectitm.image_url.length?selectitm.image_url.map((itm,k)=>(               
+                <img src={itm} alt="img" className={selectitm.image_url.length===2?"image-lcp1 imagelcp_width2":"image-lcp1 imagelcp_width"}    />     
+            )):null}
+            </div>  
+            :null}     
+        </div>
+          :selectitm.product_name==="College" & selectitm.orientation==="Portait"?
+          <div className=" border-cp framebox-shadow" style={{width:"300px",margin:"auto",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+              <DragDropContext >
+      <Droppable droppableId="uploaded-images" direction='vertical'>
+        {(provided) => (
+          <div {...provided.droppableProps} ref={provided.innerRef} >
+            {selectitm.image_url.map((image, index) => (
+              <Draggable key={index} draggableId={index.toString()} index={index}>
+                {(provided) => (
+                  <img
+                  src={image}
+                  alt="img"
+                  className="image-pcp pcpwidth "
+                  
+                    
+                    ref={provided.innerRef}
+                  />
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
+            </div> 
+        :selectitm.product_name==="College" & selectitm.orientation==="Square"?
+        <div className="border-cp framebox-shadow" style={selectitm.image_url.length===4? {width:"386px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.length===9?{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+              
+    <div className="App">
+      <ListManager
+        items={selectitm.image_url}
+        direction="horizontal"
+        maxItems={selectitm.image_url.length===4? 2:selectitm.image_url.length===9?3:4}
+        render={item => <img src={item} alt="img" className='square-image' style={selectitm.image_url.length===12?{width:"120px",height:"100%"}:selectitm.image_url.length===9?{width:"160px",height:"100%"}:{width:"180px",height:"100%"}}/>}
+        onDragEnd={() => {}}
+        dragEnabled={false}
+       
+      />
+    </div>
+            </div>
+        :selectitm.product_name==="Canvas"?
+        <>
+            {selectitm.frame? 
+             <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}} >
+            {selectitm.image_url.length?selectitm.image_url.map((itm,k)=>(               
+                <img src={itm} key={k} alt="img" className='' style={{width:"250px"}}    />     
+            )):null}
+            </div>
+            :
+            <>
+            {selectitm.image_url.length?selectitm.image_url.map((itm,k)=>( 
+              <div className=" margin-css m-auto" >            
+              <div className=' ' >             
+              <div className='canvas-rotate '>
+                <img src={itm} alt="img" style={{width:"250px "}}   />   
+                <div className='canvas-border '>
+                  
+                <img src={itm} alt="img" style={{maxWidth:"none",height:"100%"}}   /> 
+                </div>
+              </div>
+              </div> 
+        
+          </div>   
+              )):null}
+              </>  }</>
+    :selectitm.product_name==="Print"?<>
+    {selectitm.image_url.length?selectitm.image_url.map((itm,k)=>(               
+      <div key={k} className='  ' >             
+      <div className='box-shadow p-1 'style={{width:"50%",margin:"auto"}}>
+        <img src={itm} alt="img" style={{width:"100%"}}   />   
+       
+      </div>
+      </div>    
+ )):null}</>
+    :selectitm.product?
+    <div className={selectitm.frame?' d-flex border-cp framebox-shadow':'d-flex framebox-shadow'} style={selectitm.frame?{width:"335px",height:"100%",margin:"auto",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"335px",height:"100%",margin:"auto"}}   >
+    <img src={selectitm.product.length?selectitm.product[0].product_image:null} alt="img" className='' style={{width:"100%",height:"100%"}}    />
+    </div>
+    :null}
+       
         <div />
         </div>
-        <div className="modal-footer">
+        {/* <div className="modal-footer">
           <button onClick={()=>setmodal(!modal) } type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </div>
+          
+        </div> */}
       </form>
       </div>
     </div>
