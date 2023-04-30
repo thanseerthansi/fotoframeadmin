@@ -79,7 +79,7 @@ export default function Orders() {
             },
             {
               name:"Status",
-              selector : (itm)=><div className='p-2'>{itm.status}
+              selector : (itm)=><div className='p-2'>
               <button  disabled className='h-auto w-auto rounded  p-1  ' >{itm.status}</button>
               <br/><select className='form-select mt-1' >
                 <option value='' hidden>Change Status</option>

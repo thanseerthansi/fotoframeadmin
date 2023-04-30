@@ -13,6 +13,7 @@ import Callaxios from './Callaxios';
 import { useLocation } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { ListManager } from 'react-beautiful-dnd-grid';
+import { imgUrl } from './Url';
 export default function OrderProducts() {
     const { orderproductdata,Getorderproduct } = useContext(Simplecontext)
     const [modal,setmodal]=useState(false)
@@ -45,7 +46,7 @@ export default function OrderProducts() {
         // console.log("orderp.id",orderp.id)
       if (orderproductdata){
         let order_qs = orderproductdata.filter(t=>t.order[0].id===orderp.id)
-        console.log("orderqs",order_qs)
+        // console.log("orderqs",order_qs)
         return order_qs
       }else{return null}
       
@@ -159,7 +160,7 @@ export default function OrderProducts() {
               {orderfunction().length?orderfunction().map((itm,k)=>(
                 <tr key={k}>
                 <td>{k+1}</td>
-                <td>{itm.product.length?itm.product[0].product_name:itm.product_type} 
+                <td>{itm.product?itm.product.length?itm.product[0].product_name:itm.product_type:itm.product_type} 
                 <br/><u onClick={()=>setmodal(!modal)&setselectitm(itm)} className='hover pointerviewb' ><AiOutlineEye size={15} /> Preview</u></td>
                 <td>Download</td>
                 <td>{itm.orientation}</td>
@@ -207,39 +208,44 @@ export default function OrderProducts() {
       </div>
       <form className="forms-sample" >
         <div className="modal-body">
-            
-        {selectitm.product_name==="Mini Frame"?
+        {selectitm?<>  
+        {selectitm.product_type==="Mini Frame"?
         <div className='row'>
-        {selectitm? selectitm.image_url.map((itm,k)=>(
+        {selectitm? selectitm.image_url.split(',').map((itm,k)=>(
             <div key={k} className='col-12 col-md-6 '>
-            <div className="mt-2 item">
+            {/* <div className="mt-2 item">
               <figure className='framebox-shadow' >
-              <img src="/assets/img/photos/black-frame.png" alt="example"  style={{width:"100%"}} /> 
+              <img src="\assets\images\black-frame.png" alt="example"  style={{width:"100%"}} /> 
               <img src={itm} alt="img" className='minimage' style={selectitm.frame_look==="MODERN"?{width:"94%"}:{width:"94%",padding:"10px"}} />             
                
               </figure>
+            </div> */}
+            <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}} >
+            {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
+                <img src={itm} key={k} alt="img" className='' style={selectitm.frame_look==="MODERN"?{width:"250px"}:{width:"250px",padding:"10px"}}    />     
+            )):null}
             </div>
             </div>
             ))
             :null}</div>
-            :selectitm.product_name==="College" & selectitm.orientation==="LandScape"?
+            :selectitm.product_type==="College" & selectitm.orientation==="LandScape"?
             <div className="overflowbar " >  
-            {selectitm.image_url.length ? 
-            <div className={"d-flex border-cp framebox-shadow"} style={selectitm.image_url.length===2?{width:"500px",height:"100%",margin:"auto",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.length===3?{width:"780px",height:"200px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"1049px",height:"200px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+            {selectitm.image_url ? 
+            <div className={"d-flex border-cp framebox-shadow"} style={selectitm.image_url.split(',').length===2?{width:"500px",height:"100%",margin:"auto",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.split(',').length===3?{width:"780px",height:"200px",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"1049px",height:"200px",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
               
-            {selectitm.image_url.length?selectitm.image_url.map((itm,k)=>(               
-                <img src={itm} alt="img" className={selectitm.image_url.length===2?"image-lcp1 imagelcp_width2":"image-lcp1 imagelcp_width"}    />     
+            {selectitm.image_url?selectitm.image_url.split(',').map((itm,k)=>(               
+                <img src={itm} key={k} alt="img" className={selectitm.image_url.split(',').length===2?"image-lcp1 imagelcp_width2":"image-lcp1 imagelcp_width"}    />     
             )):null}
             </div>  
             :null}     
         </div>
-          :selectitm.product_name==="College" & selectitm.orientation==="Portait"?
-          <div className=" border-cp framebox-shadow" style={{width:"300px",margin:"auto",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+          :selectitm.product_type==="College" & selectitm.orientation==="Portait"?
+          <div className=" border-cp framebox-shadow" style={{width:"300px",margin:"auto",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
               <DragDropContext >
       <Droppable droppableId="uploaded-images" direction='vertical'>
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef} >
-            {selectitm.image_url.map((image, index) => (
+            {selectitm.image_url.split(',').map((image, index) => (
               <Draggable key={index} draggableId={index.toString()} index={index}>
                 {(provided) => (
                   <img
@@ -259,32 +265,32 @@ export default function OrderProducts() {
       </Droppable>
     </DragDropContext>
             </div> 
-        :selectitm.product_name==="College" & selectitm.orientation==="Square"?
+        :selectitm.product_type==="College" & selectitm.orientation==="Square"?
         <div className="border-cp framebox-shadow" style={selectitm.image_url.length===4? {width:"386px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.length===9?{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
               
     <div className="App">
       <ListManager
-        items={selectitm.image_url}
+        items={selectitm.image_url.split(',')}
         direction="horizontal"
-        maxItems={selectitm.image_url.length===4? 2:selectitm.image_url.length===9?3:4}
-        render={item => <img src={item} alt="img" className='square-image' style={selectitm.image_url.length===12?{width:"120px",height:"100%"}:selectitm.image_url.length===9?{width:"160px",height:"100%"}:{width:"180px",height:"100%"}}/>}
+        maxItems={selectitm.image_url.split(',').length===4? 2:selectitm.image_url.split(',').length===9?3:4}
+        render={item => <img src={item} alt="img" className='square-image' style={selectitm.image_url.split(',').length===12?{width:"120px",height:"100%"}:selectitm.image_url.split(',').length===9?{width:"160px",height:"100%"}:{width:"180px",height:"100%"}}/>}
         onDragEnd={() => {}}
         dragEnabled={false}
        
       />
     </div>
             </div>
-        :selectitm.product_name==="Canvas"?
+        :selectitm.product_type==="Canvas" & selectitm.product?
         <>
             {selectitm.frame? 
-             <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}} >
-            {selectitm.image_url.length?selectitm.image_url.map((itm,k)=>(               
+             <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}} >
+            {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
                 <img src={itm} key={k} alt="img" className='' style={{width:"250px"}}    />     
             )):null}
             </div>
             :
             <>
-            {selectitm.image_url.length?selectitm.image_url.map((itm,k)=>( 
+            {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>( 
               <div className=" margin-css m-auto" >            
               <div className=' ' >             
               <div className='canvas-rotate '>
@@ -299,8 +305,33 @@ export default function OrderProducts() {
           </div>   
               )):null}
               </>  }</>
-    :selectitm.product_name==="Print"?<>
-    {selectitm.image_url.length?selectitm.image_url.map((itm,k)=>(               
+    :selectitm.product_type==="Canvas" & !selectitm.product?
+    <>
+        {selectitm.frame? 
+         <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}} >
+        {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
+            <img src={itm} key={k} alt="img" className='' style={{width:"250px"}}    />     
+        )):null}
+        </div>
+        :
+        <>
+        {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>( 
+          <div key={k} className=" margin-css m-auto" >            
+          <div className=' ' >             
+          <div className='canvas-rotate '>
+            <img src={itm} alt="img" style={{width:"250px "}}   />   
+            <div className='canvas-border '>
+              
+            <img src={itm} alt="img" style={{maxWidth:"none",height:"100%"}}   /> 
+            </div>
+          </div>
+          </div> 
+    
+      </div>   
+          )):null}
+          </>  }</>
+    :selectitm.product_type==="Print"?<>
+    {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
       <div key={k} className='  ' >             
       <div className='box-shadow p-1 'style={{width:"50%",margin:"auto"}}>
         <img src={itm} alt="img" style={{width:"100%"}}   />   
@@ -309,10 +340,11 @@ export default function OrderProducts() {
       </div>    
  )):null}</>
     :selectitm.product?
-    <div className={selectitm.frame?' d-flex border-cp framebox-shadow':'d-flex framebox-shadow'} style={selectitm.frame?{width:"335px",height:"100%",margin:"auto",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"335px",height:"100%",margin:"auto"}}   >
-    <img src={selectitm.product.length?selectitm.product[0].product_image:null} alt="img" className='' style={{width:"100%",height:"100%"}}    />
+    <div className={selectitm.frame?' d-flex border-cp framebox-shadow':'d-flex framebox-shadow'} style={selectitm.frame?{width:"335px",height:"100%",margin:"auto",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"335px",height:"100%",margin:"auto"}}   >
+    <img src={selectitm.product.length?imgUrl+selectitm.product[0].product_image:null} alt="img" className='' style={{width:"100%",height:"100%"}}    />
     </div>
     :null}
+    </>:null}
        
         <div />
         </div>

@@ -27474,3 +27474,357 @@ html{
 .pointerviewb:hover{
     color:#0057ff;
 }
+.border-cp{
+    border-style: solid;
+    border-width: 8px;
+    /* border-image: url(/assets/img/photos/black-frame.png) 1%  stretch repeat; */
+    
+}
+.framebox-shadow{
+    box-shadow: 1px 5px 30px  rgba(0, 0, 0, 0.2)
+}
+.overflowbar{
+    /* -ms-overflow-style: none;  
+    scrollbar-width: none;  */
+    overflow-y: hidden;
+    overflow-x: auto;
+    padding: 5px;
+}
+
+
+.frameimage:hover{
+  cursor: pointer;
+}
+.framebox-shadow{
+  box-shadow: 1px 5px 30px  rgba(0, 0, 0, 0.2)
+}
+.overflowbar{
+  /* -ms-overflow-style: none;  
+  scrollbar-width: none;  */
+  overflow-y: hidden;
+  overflow-x: auto;
+  padding: 5px;
+}
+/* .overflowbar::-webkit-scrollbar { 
+  display: none;  
+} */
+.margin1-csq:hover{
+  box-shadow: 1px 8px 20px grey;  
+  cursor: pointer;
+}
+.margin2-csq:hover{
+  box-shadow: 1px 8px 20px grey;  
+  cursor: pointer;
+}
+.margin3-csq:hover{
+  box-shadow: 1px 8px 20px grey;  
+  cursor: pointer;
+}
+
+@media only screen and (min-width:944px){
+  .margin1-csq{
+      width: 241px;
+      margin-top: 145px;
+      margin-left: 79px;
+  }
+  .margin2-csq{
+      width: 320px;
+      margin-top: 67px;
+  }
+  .margin3-csq{
+      width: 376px;
+      margin-top: 10px;
+  }
+}
+@media only screen and (max-width:945px){
+  .margin1-csq{
+      margin: 20%;
+  }
+  .margin2-csq{
+     margin: 15%;
+  }
+  .margin3-csq{
+     margin: 1%;
+  }
+}
+.square-image:first-child{
+  padding: 5px;
+}
+.canvas-border{
+  position: absolute;
+  top: 0;
+  left: -20px;
+  width: 20px;
+  height: 100%;
+  transform-origin: right 36%;
+  /* transform: rotateY(-57deg); */
+  transform:
+  perspective(1001px) 
+  rotateX(0deg) 
+  rotateY(-56deg) 
+  rotateZ(0deg);
+  overflow: hidden;
+}
+.canvas-rotate{
+  /* transform-style: preserve-3d;
+  transform-origin: left 50%;
+  transform: rotateY(15deg); */
+  transform:
+  perspective(1001px) 
+  rotateX(0deg) 
+  rotateY(6deg) 
+  rotateZ(0deg);
+  box-shadow: 24px 16px 64px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  
+}
+.border-rotate{
+  /* transform-style: preserve-3d;
+  transform-origin: left 50%;
+  transform: rotateY(15deg); */
+  transform:
+  perspective(1001px) 
+  rotateX(0deg) 
+  rotateY(26deg) 
+  rotateZ(0deg);
+  box-shadow: 24px 16px 64px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  
+   /* position: absolute;
+   top: 0;
+   left: -20px;
+   width: 20px;
+   height: 100%;
+   transform-origin: right 50%;
+   transform: rotateY(-70deg);
+   overflow: hidden; */
+
+}
+.reset-link{
+  color: blue;
+  cursor: pointer;
+
+}
+.reset-link:hover{
+  color:var(--bs-blue)
+}
+.card_style{
+  height:250px
+  
+}
+.card_style img{
+  /* object-fit: fill; */
+  vertical-align: middle;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+}
+.project{
+  height:400px;
+}
+.overflowx-theme{
+  overflow-y: auto;
+  font-size: 13px;
+  max-height: 200px;
+  
+}
+.overflowx-theme input{
+  width: 15px;
+  height: 15px;
+}
+.color-body{
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  margin-left: 5px;
+}
+.button-orient h6{
+  font-size: 13px;
+}
+.ml-left{
+  margin-left: 10px;
+  background-color: #d9d9d5;
+  border-radius: 8px;
+  height: 118px;
+}
+.box-shadow{
+  box-shadow: 1px 1px 6px grey;
+}
+.aedsize{
+  font-size: 80%;
+}
+.aedsize{
+  font-size: 80%;
+}
+.pointerb{
+  cursor: pointer;
+}
+.pointerb:hover{
+  color: #8f0000;
+}
+.pointerviewb{
+  cursor: pointer;
+}
+.pointerviewb:hover{
+  color:#0057ff;
+}
+.imagelcp_width{
+    width: 31.6%;
+    height: 89%;
+  }
+  .imagelcp_width2{
+    width: 47%;
+    height: 89%;
+  }
+  .frameimage{
+    border-radius: 6px;
+    
+  }
+  .label1{
+    border-radius: 16px 0 0 16px;
+}
+.label2{
+    border-radius: 0 16px 16px 0; 
+}
+/* This is just for CodePen. */
+.line-break {
+    
+    display: block;
+    border-bottom: 1px solid #e2e0e0;
+    margin-top: 10px;
+    /* margin-left: 5px;
+    margin-right: 5px; */
+  }
+
+.border-cart{
+    border: 1px solid #e2e0e0;
+    border-radius: 24px;
+    margin-left: 15px;
+    margin-right: 5px;
+    box-shadow: 1px 2px 7px grey
+}
+.border-cp{
+    border-style: solid;
+    border-width: 8px;
+    /* border-image: url(/assets/img/photos/black-frame.png) 1%  stretch repeat; */
+    
+}
+.border-oak-cp{
+    border-style: solid;
+    border-width: 8px;
+    border-image: url(/assets/img/photos/oak-frame.png) 1%  stretch repeat;
+    
+}
+.border-white-cp{
+    border-style: solid;
+    border-width: 8px;
+    /* border-image: url(/assets/img/photos/white-frame.png) 1%  stretch repeat; */
+}
+.image_cp{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 0%;
+}
+.image_cp2{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.image_cl{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.image_cl2{
+    padding-top: 0%;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.image_cs{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.image_cs2{
+    padding-top: 10px;
+    padding-left: 0%;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.image_cs3{
+    padding-top: 0%;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.image_cs4{
+    padding-top: 0%;
+    padding-left: 0%;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.card-bodyframe{
+    margin: 20%;
+}
+.card-bodyframe:hover{
+    box-shadow: 1px 8px 20px grey;  
+    cursor: pointer;
+}
+
+.backimgae{
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: inset 1px 1px 1px 1px #ecebeb;
+
+}
+.image-lcp1:not(:first-child):not(:last-child){
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+.image-lcp1:first-child{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.image-lcp1:last-child{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+.image-item {
+  width: 23.2%;
+  height: 100%;
+  margin: 0 5px;
+}
+.image-pcp:first-child {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.image-pcp:not(:first-child):not(:last-child){
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.image-pcp:last-child{
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.pcpwidth{
+    width: 93%;
+}
