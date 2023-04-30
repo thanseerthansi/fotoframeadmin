@@ -147,6 +147,7 @@ export default function OrderProducts() {
                 <th>Products</th>
                 <th>Images</th>
                 <th>Orientation</th>
+                <th>Papper</th>
                 <th>Frame</th>
                 <th >Size</th>
                 {/* <th style={{width:"180px"}}>Status</th> */}
@@ -164,7 +165,8 @@ export default function OrderProducts() {
                 <br/><u onClick={()=>setmodal(!modal)&setselectitm(itm)} className='hover pointerviewb' ><AiOutlineEye size={15} /> Preview</u></td>
                 <td>Download</td>
                 <td>{itm.orientation}</td>
-                <td>{itm.frame?.[0].framename??""}</td>
+                <td>{itm.papper}</td>
+                <td>{itm.frame?.[0].framename??<p>NO</p>}</td>
                 <td>{itm.size}</td>
                 {/* <td><div className='p-2'>{itm.status}
               <button  disabled className='h-auto w-auto rounded  p-1  ' >{itm.status}</button>
@@ -182,11 +184,11 @@ export default function OrderProducts() {
               </tr>
              )):null}
              <tr>
-              <td colSpan={6} className='text-end'>Shipping</td>
+              <td colSpan={7} className='text-end'>Shipping</td>
               <td colSpan={1} className=''>{orderp?orderp.shipping:null}</td>
              </tr>
              <tr>
-              <td colSpan={6} className='text-end'>Total</td>
+              <td colSpan={7} className='text-end'>Total</td>
               <td colSpan={1} className=''>{orderfunction()?orderfunction().reduce((n, {price}) => n + parseInt(price), 0)+parseInt(orderp?orderp.shipping:null):null}<span className='aed'> AED</span></td>
              </tr>
               
