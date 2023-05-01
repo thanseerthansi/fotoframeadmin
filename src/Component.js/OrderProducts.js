@@ -107,6 +107,25 @@ export default function OrderProducts() {
             }
          
           };
+      
+        const handleClick = (image,file,orientation) => {
+          const url = image;
+          const filename = orderp.Customer_name+file+orientation+'.jpg';
+          downloadImage(url, filename);
+        };
+        function downloadImage(url, filename) {
+          fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+              const url = window.URL.createObjectURL(new Blob([blob]));
+              const link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', filename);
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            });
+          }            
   return (
     <div className='page-wrapper p-3 mt-5'>
        <ToastContainer/>
@@ -163,7 +182,27 @@ export default function OrderProducts() {
                 <td>{k+1}</td>
                 <td>{itm.product?itm.product.length?itm.product[0].product_name:itm.product_type:itm.product_type} 
                 <br/><u onClick={()=>setmodal(!modal)&setselectitm(itm)} className='hover pointerviewb' ><AiOutlineEye size={15} /> Preview</u></td>
-                <td>Download</td>
+                <td>
+                  {itm.image_url?itm.image_url.split(',').map((itmi,ki)=>(
+                    // <ul key={ki}>
+                    // <li>
+                    <>
+                    <button key={ki} className='border-0' onClick={()=>handleClick(itmi,itm.product?itm.product.length?itm.product[0].product_name:itm.product_type:itm.product_type,itm.orientation)} >
+                  <img src={itmi} alt="Image description"/>
+                </button>
+                </>
+                   
+                  // </li>
+                  //     </ul>
+                  )):
+                  <button className='border-0' onClick={()=>handleClick(imgUrl+itm.product[0].product_image,itm.product?itm.product.length?itm.product[0].product_name:itm.product_type:itm.product_type,itm.orientation)} >
+                  <img src={imgUrl+itm.product[0].product_image} alt="Image description"/>
+                </button>
+                //   <a  href={imgUrl+itm.product[0].product_image} download>
+                //   <img src={imgUrl+itm.product[0].product_image} alt="Image description"/>
+                // </a>
+                }
+                  </td>
                 <td>{itm.orientation}</td>
                 <td>{itm.papper}</td>
                 <td>{itm.frame?.[0].framename??<p>NO</p>}</td>
@@ -268,7 +307,7 @@ export default function OrderProducts() {
     </DragDropContext>
             </div> 
         :selectitm.product_type==="College" & selectitm.orientation==="Square"?
-        <div className="border-cp framebox-shadow" style={selectitm.image_url.length===4? {width:"386px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.length===9?{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+        <div className="border-cp framebox-shadow" style={selectitm.image_url.split(',').length===4? {width:"386px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.split(',').length===9?{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
               
     <div className="App">
       <ListManager

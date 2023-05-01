@@ -29,6 +29,7 @@ function App() {
           <Route path="city" element={<City/>}/>
           <Route path="frameprice" element={<Frameprice/>}/>
           <Route path="orderproduct" element={<OrderProducts/>}/>
+          
         </Route>
       </Routes>
       </Simplecontextprovider>

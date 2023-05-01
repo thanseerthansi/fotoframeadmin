@@ -27828,3 +27828,9 @@ html{
 .pcpwidth{
     width: 93%;
 }
+.btn.btn-primary[disabled] {
+    background-color: #00ff00;
+}
+.aeddash{
+    font-size: 75%;
+}

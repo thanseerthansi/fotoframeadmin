@@ -17,6 +17,7 @@ export default function Orders() {
     const [modal,setmodal]=useState(false)
     const [orderdata,setorderdata]=useState([])
     const [searchvalue,setsearchvalue]=useState('')
+    // const [status,setstatus]=useState('')
     
     useEffect(() => {
       Getorders()
@@ -80,8 +81,8 @@ export default function Orders() {
             {
               name:"Status",
               selector : (itm)=><div className='p-2'>
-              <button  disabled className='h-auto w-auto rounded  p-1  ' >{itm.status}</button>
-              <br/><select className='form-select mt-1' >
+              <button  disabled className='h-auto w-auto rounded  p-1 btn btn-secondary ' >{itm.status}</button>
+              <br/><select onChange={(e)=>changestatus(itm.id,e.target.value)} className='form-select mt-1' >
                 <option value='' hidden>Change Status</option>
                 <option value="new">New</option>
                 <option value="dispatch">Dispatch</option>
@@ -126,6 +127,20 @@ export default function Orders() {
             }
          
           };
+    const changestatus=async(orderid,status)=>{
+      try {
+        let data =await Callaxios("patch","order/orders/",{id:orderid,status:status})
+        // console.log("datastatu",data)
+        if (data.data.Status===200){
+          notify("status changed")
+          Getorders()
+        }else{
+          notifyerror("Something Went Wrong")
+        }
+      } catch (error) {
+        
+      }
+    }
   return (
     <div className='page-wrapper p-3 mt-5'>
        <ToastContainer/>
