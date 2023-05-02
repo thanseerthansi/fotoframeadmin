@@ -98,6 +98,18 @@ export default function Orders() {
            
             },
             {
+              name:"Paid",
+              selector : (itm)=><div className='d-flex-col text-center'>{itm.paidstatus?"Paid":"No"}
+              <br/><select onChange={(e)=>changepaidstatus(itm.id,e.target.value)} className='form-select mt-1' >
+                <option value='' hidden>Change Status</option>
+                <option value={true}>Paid</option>
+                <option value={false}>No</option>
+                
+              </select>
+               </div>,
+           
+            },
+            {
               name:"Date",
               selector : (itm)=><div className='d-flex-col text-center'>{moment(itm.created_date).format("MMMM Do YYYY, h:mm:ss a")}</div>,
            
@@ -127,6 +139,22 @@ export default function Orders() {
             }
          
           };
+          const changepaidstatus=async(order_id,status)=>{
+            try {
+              let data =await Callaxios("patch","order/orders/",{id:order_id,paidstatus:status})
+              // console.log("datastatu",data)
+              if (data.data.Status===200){
+                notify("status changed")
+                Getorders()
+                console.log("ststus",data)
+             
+              }else{
+                notifyerror("Something went wrong")
+              }
+            } catch (error) {
+              
+            }
+          }
     const changestatus=async(orderid,status)=>{
       try {
         let data =await Callaxios("patch","order/orders/",{id:orderid,status:status})

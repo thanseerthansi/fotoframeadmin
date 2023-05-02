@@ -26,7 +26,7 @@ export default function OrderProducts() {
     console.log("selectitm",selectitm)
   
     useEffect(() => {
-       
+      Getorderproduct()
         window.scrollTo(0,0);
         // accesscheck()
         // Scripts()
@@ -164,7 +164,7 @@ export default function OrderProducts() {
               <tr>
                 <th>#</th>
                 <th>Products</th>
-                <th>Images</th>
+                <th>Download</th>
                 <th>Orientation</th>
                 <th>Papper</th>
                 <th>Frame</th>

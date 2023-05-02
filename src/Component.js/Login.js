@@ -79,8 +79,7 @@ export default function Login() {
                   
                   <div>
                    
-                    <button type="submit" className="btn btn-primary btn-icon-text mb-2 mb-md-0 ">
-                     
+                    <button type="submit" className="btn btn-primary btn-icon-text mb-2 mb-md-0 ">                   
                       Login
                     </button>
                   </div>
