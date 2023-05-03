@@ -59,11 +59,12 @@ export default function Orders() {
     //   let convert_date = <Moment date={date} />
     //   console.log("date",convert_date)
     // }
+    const rowNumber = (row) => orderdata.filter(t=>t.Customer_name.toLowerCase().includes(searchvalue.toLowerCase())).indexOf(row) + 1;
         const columns =[
     
             {
               name: <div>#</div>,
-              selector: (itm,index) =>index+1,
+              selector: (row) =>rowNumber(row),
               width:"50px",
             },
             {
@@ -187,7 +188,7 @@ export default function Orders() {
             <div className="input-group-text">
               <BiSearch/>
             </div>
-            <input  type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
+            <input onChange={(e)=>setsearchvalue(e.target.value)}  type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
           </div>
         </form>
         </div>
@@ -198,7 +199,7 @@ export default function Orders() {
             pagination
             // highlightOnHover
             columns={columns}
-            data={orderdata}               
+            data={orderdata.filter(t=>t.Customer_name.toLowerCase().includes(searchvalue.toLowerCase()))}               
             defaultSortField="_id"
             defaultSortAsc={false}               
             paginationRowsPerPageOptions={[10,20,50,100]}

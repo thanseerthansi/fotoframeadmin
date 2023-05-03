@@ -14,7 +14,7 @@ export default function Simplecontextprovider({children}) {
         try {
           let data = await Callaxios("get","frame/frame/")
           if (data.status===200){
-            console.log("data.data ",data.data)
+            // console.log("data.data ",data.data)
             setframedata(data.data)
           }
           // console.log("data",data)
