@@ -35,7 +35,7 @@ export default function Orders() {
     const Getorders =async()=>{
       try {
         let data  = await Callaxios("get","order/orders/")
-        console.log("order date",data)
+        // console.log("order date",data)
         if (data.status===200){
             setorderdata(data.data)
         }
@@ -147,7 +147,7 @@ export default function Orders() {
               if (data.data.Status===200){
                 notify("status changed")
                 Getorders()
-                console.log("ststus",data)
+                // console.log("ststus",data)
              
               }else{
                 notifyerror("Something went wrong")
