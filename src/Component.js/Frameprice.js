@@ -26,7 +26,7 @@ export default function Frameprice() {
     const [noofphoto,setnoofphoto]=useState('')
     const [searchvalue,setsearchvalue]=useState('')
     const [orientation,setorientation]=useState('')
-    console.log("frame",frame)
+    // console.log("frame",frame)
     useEffect(() => {
       GetFrameprice()
       window.scrollTo(0,0);
@@ -63,7 +63,7 @@ export default function Frameprice() {
         if (selectframeprice){
           body = {
             frame:frame,
-            orientation:orientation,
+            orientation:frame==="miniframe"?orientation:"",
             price :pricelist,
             id:selectframeprice.id,
           }
@@ -272,7 +272,7 @@ export default function Frameprice() {
       <div className="card-body">
         <div className='row ' >
           <div className='col-6' >
-        <h6 className="card-title text-start text-bold">Frame type</h6>
+        <h6 className="card-title text-start text-bold">Frame Price</h6>
         <div className='text-start'><button onClick={()=>setmodal(!modal) &setallnull()} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div>
         </div>
         <div className='col-6'>
@@ -311,7 +311,7 @@ export default function Frameprice() {
   <div className="modal " id="exampleModalCenter" tabIndex={1} aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style={modal===true ? {display: 'block', paddingRight: 17}:{display:'none'}}>
   <div className="modal-dialog modal-dialog-centered modal-lg box-shadow-blank" >
     <div className="modal-content"><div className="modal-header">
-      <h5 className="modal-title" id="exampleModalCenterTitle">Frame Type</h5>
+      <h5 className="modal-title" id="exampleModalCenterTitle">Add Frame Price</h5>
       <button onClick={()=>setmodal(!modal)} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="btn-close" />
       </div>
       <form className="forms-sample" onSubmit={(e)=>Postframeprice(e)} >

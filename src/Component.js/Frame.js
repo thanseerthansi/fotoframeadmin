@@ -234,16 +234,7 @@ export default function Frame() {
                     <input  onChange={(e)=>setframename(e.target.value)} value={framename} type="text" required  className="form-control" placeholder="Frame name"  />
                 </div>
                 <div className="mb-3 col-12">
-                    <label htmlFor="userEmail" className="form-label ">Main image</label>
-                    <input onChange={(e)=>setmainimage(e.target.files[0])} value={''}  type="file"   className="form-control" placeholder="main image"  />
-                    {mainimage ?
-                          <div className='m-2'>
-                            <img className='rounded image-size' src={mainimage instanceof File ? URL.createObjectURL(mainimage):mainimage}  alt='img' height="auto" width="auto" />
-                          </div>
-                          :null }
-                </div>
-                <div className="mb-3 col-12">
-                    <label htmlFor="userEmail" className="form-label ">Frame image</label>
+                    <label htmlFor="userEmail" className="form-label ">Frame image (png)<b>*</b></label>
                     <input onChange={(e)=>setimage(e.target.files[0])} value={''}  type="file"   className="form-control" placeholder="image"  />
                     {image ?
                           <div className='m-2'>
@@ -251,6 +242,16 @@ export default function Frame() {
                           </div>
                           :null }
                 </div>
+                <div className="mb-3 col-12">
+                    <label htmlFor="userEmail" className="form-label ">Main image<b>*</b></label>
+                    <input onChange={(e)=>setmainimage(e.target.files[0])} value={''}  type="file"   className="form-control" placeholder="main image"  />
+                    {mainimage ?
+                          <div className='m-2'>
+                            <img className='rounded image-size' src={mainimage instanceof File ? URL.createObjectURL(mainimage):mainimage}  alt='img' height="auto" width="auto" />
+                          </div>
+                          :null }
+                </div>
+                
                 
                
             </div>
