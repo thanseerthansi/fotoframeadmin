@@ -44,7 +44,7 @@ export default function Frameprice() {
     const GetFrameprice =async()=>{
       try {
         let data = await Callaxios("get","frame/frameprice/")
-        console.log("framepricedata",data)
+        // console.log("framepricedata",data)
         if (data.status===200){
           setframepricedata(data.data)
         }
@@ -54,7 +54,7 @@ export default function Frameprice() {
       }
     }
     const Postframeprice=async(e)=>{
-      console.log("ok")
+      // console.log("ok")
       e.preventDefault()
       try {
         let body
@@ -63,7 +63,7 @@ export default function Frameprice() {
         if (selectframeprice){
           body = {
             frame:frame,
-            orientation:frame==="miniframe"?orientation:"",
+            orientation:frame==="miniframe"?"":orientation,
             price :pricelist,
             id:selectframeprice.id,
           }
@@ -352,7 +352,7 @@ export default function Frameprice() {
                           {frame==="college"?orientation==="landscape"||orientation==="portait"?<option   >3</option>:null:null}
                           {frame==="college"?orientation==="landscape"||orientation==="portait"||orientation==="square"?<option   >4</option>:null:null}
                           {frame==="college"?orientation==="square"?<option   >9</option>:null:null}
-                          {frame==="college"?orientation==="square"?<option   >12</option>:null:null}
+                          {frame==="college"?orientation==="square"?<option   >16</option>:null:null}
                          
                                                 
                         </select>                 

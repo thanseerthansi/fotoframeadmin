@@ -83,7 +83,7 @@ export default function Producttheme() {
     const Getselecttheme=(itm)=>{
       setallnull()
       setselecttheme(itm)
-      setthemename(itm.city)
+      setthemename(itm.theme_name)
       setdescription(itm.description)
       setmodal(!modal)
     }
