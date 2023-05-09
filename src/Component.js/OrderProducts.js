@@ -256,12 +256,12 @@ export default function OrderProducts() {
             <div key={k} className='col-12 col-md-6 '>
             {/* <div className="mt-2 item">
               <figure className='framebox-shadow' >
-              <img src="\assets\images\black-frame.png" alt="example"  style={{width:"100%"}} /> 
+              <img src="/assets/images/black-frame.png" alt="example"  style={{width:"100%"}} /> 
               <img src={itm} alt="img" className='minimage' style={selectitm.frame_look==="MODERN"?{width:"94%"}:{width:"94%",padding:"10px"}} />             
                
               </figure>
             </div> */}
-            <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}} >
+            <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
             {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
                 <img src={itm} key={k} alt="img" className='' style={selectitm.frame_look==="MODERN"?{width:"250px"}:{width:"250px",padding:"10px"}}    />     
             )):null}
@@ -272,7 +272,7 @@ export default function OrderProducts() {
             :selectitm.product_type==="College" & selectitm.orientation==="LandScape"?
             <div className="overflowbar " >  
             {selectitm.image_url ? 
-            <div className={"d-flex border-cp framebox-shadow"} style={selectitm.image_url.split(',').length===2?{width:"500px",height:"100%",margin:"auto",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.split(',').length===3?{width:"780px",height:"200px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"1049px",height:"200px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+            <div className={"d-flex border-cp framebox-shadow"} style={selectitm.image_url.split(',').length===2?{width:"500px",height:"100%",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.split(',').length===3?{width:"780px",height:"200px",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:{width:"1049px",height:"200px",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}}   >
               
             {selectitm.image_url?selectitm.image_url.split(',').map((itm,k)=>(               
                 <img src={itm} key={k} alt="img" className={selectitm.image_url.split(',').length===2?"image-lcp1 imagelcp_width2":"image-lcp1 imagelcp_width"}    />     
@@ -281,7 +281,7 @@ export default function OrderProducts() {
             :null}     
         </div>
           :selectitm.product_type==="College" & selectitm.orientation==="Portait"?
-          <div className=" border-cp framebox-shadow" style={{width:"300px",margin:"auto",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+          <div className=" border-cp framebox-shadow" style={{width:"300px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}}   >
               <DragDropContext >
       <Droppable droppableId="uploaded-images" direction='vertical'>
         {(provided) => (
@@ -307,7 +307,7 @@ export default function OrderProducts() {
     </DragDropContext>
             </div> 
         :selectitm.product_type==="College" & selectitm.orientation==="Square"?
-        <div className="border-cp framebox-shadow" style={selectitm.image_url.split(',').length===4? {width:"386px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.split(',').length===9?{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}}   >
+        <div className="border-cp framebox-shadow" style={selectitm.image_url.split(',').length===4? {width:"386px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.split(',').length===9?{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}}   >
               
     <div className="App">
       <ListManager
@@ -324,7 +324,7 @@ export default function OrderProducts() {
         :selectitm.product_type==="Canvas" & selectitm.product?
         <>
             {selectitm.frame? 
-             <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}} >
+             <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
             {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
                 <img src={itm} key={k} alt="img" className='' style={{width:"250px"}}    />     
             )):null}
@@ -332,7 +332,7 @@ export default function OrderProducts() {
             :
             <>
             {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>( 
-              <div className=" margin-css m-auto" >            
+              <div key={k} className=" margin-css m-auto" >            
               <div className=' ' >             
               <div className='canvas-rotate '>
                 <img src={itm} alt="img" style={{width:"250px "}}   />   
@@ -349,7 +349,7 @@ export default function OrderProducts() {
     :selectitm.product_type==="Canvas" & !selectitm.product?
     <>
         {selectitm.frame? 
-         <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}} >
+         <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
         {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
             <img src={itm} key={k} alt="img" className='' style={{width:"250px"}}    />     
         )):null}
@@ -381,7 +381,7 @@ export default function OrderProducts() {
       </div>    
  )):null}</>
     :selectitm.product?
-    <div className={selectitm.frame?' d-flex border-cp framebox-shadow':'d-flex framebox-shadow'} style={selectitm.frame?{width:"335px",height:"100%",margin:"auto",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"http://127.0.0.1:8000/media/Image/black-frame.png"})1%  stretch repeat`}:{width:"335px",height:"100%",margin:"auto"}}   >
+    <div className={selectitm.frame?' d-flex border-cp framebox-shadow':'d-flex framebox-shadow'} style={selectitm.frame?{width:"335px",height:"100%",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:{width:"335px",height:"100%",margin:"auto"}}   >
     <img src={selectitm.product.length?imgUrl+selectitm.product[0].product_image:null} alt="img" className='' style={{width:"100%",height:"100%"}}    />
     </div>
     :null}
