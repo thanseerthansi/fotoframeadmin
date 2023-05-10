@@ -251,24 +251,35 @@ export default function OrderProducts() {
         <div className="modal-body">
         {selectitm?<>  
         {selectitm.product_type==="Mini Frame"?
-        <div className='row'>
-        {selectitm? selectitm.image_url.split(',').map((itm,k)=>(
-            <div key={k} className='col-12 col-md-6 '>
-            {/* <div className="mt-2 item">
-              <figure className='framebox-shadow' >
-              <img src="/assets/images/black-frame.png" alt="example"  style={{width:"100%"}} /> 
-              <img src={itm} alt="img" className='minimage' style={selectitm.frame_look==="MODERN"?{width:"94%"}:{width:"94%",padding:"10px"}} />             
+        // <div className='row '>
+        // {selectitm? selectitm.image_url.split(',').map((itm,k)=>(
+        //     <div key={k} className='col-12 col-md-6 '>
+        //     <div className="mt-2 item">
+        //       <figure className='framebox-shadow d-flex border-cp' >
                
-              </figure>
-            </div> */}
-            <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
-            {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
-                <img src={itm} key={k} alt="img" className='' style={selectitm.frame_look==="MODERN"?{width:"250px"}:{width:"250px",padding:"10px"}}    />     
-            )):null}
+        //       <img src={selectitm? Array.isArray(selectitm.frame)?imgUrl+selectitm.frameid[0]?.image??"/assets/img/photos/black-frame.png":typeof(selectitm.frame)==="object"? selectitm.frame.image:"/assets/img/photos/black-frame.png":"/assets/img/photos/black-frame.png"} alt="example"  style={{width:"100%"}} /> 
+        //       <img src={itm} alt="img" className='minimage' style={selectitm.frame_look==="MODERN"?{width:"94%"}:{width:"94%",padding:"10px"}} />             
+               
+        //       </figure>
+        //     </div>
+        //     </div>
+        //     ))
+        //     :null}</div>
+        <div className='row overflowbar'>  
+            {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>( 
+              <div key={k} className='col-12 col-md-6  mt-2'> 
+              <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >             
+                <img src={itm}  alt="img" className='' style={selectitm.frame_look==="MODERN"?{width:"250px"}:{width:"250px",padding:"10px"}}    />     
+                </div>
+                </div>
+           )):null}
+            
+           
+            {/* ))
+            :null} */}
             </div>
-            </div>
-            ))
-            :null}</div>
+          // mofmkm
+       
             :selectitm.product_type==="College" & selectitm.orientation==="LandScape"?
             <div className="overflowbar " >  
             {selectitm.image_url ? 
@@ -307,7 +318,7 @@ export default function OrderProducts() {
     </DragDropContext>
             </div> 
         :selectitm.product_type==="College" & selectitm.orientation==="Square"?
-        <div className="border-cp framebox-shadow" style={selectitm.image_url.split(',').length===4? {width:"386px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.split(',').length===9?{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}}   >
+        <div className="border-cp framebox-shadow" style={selectitm.image_url.split(',').length===4? {width:"386px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:selectitm.image_url.split(',').length===9?{width:"505px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}:{width:"747px",margin:"auto",padding:"5px",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}}   >
               
     <div className="App">
       <ListManager
@@ -326,7 +337,7 @@ export default function OrderProducts() {
             {selectitm.frame? 
              <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
             {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
-                <img src={itm} key={k} alt="img" className='' style={{width:"250px"}}    />     
+                <img key={k} src={itm}  alt="img" className='' style={{width:"250px"}}    />     
             )):null}
             </div>
             :
@@ -351,7 +362,7 @@ export default function OrderProducts() {
         {selectitm.frame? 
          <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
         {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
-            <img src={itm} key={k} alt="img" className='' style={{width:"250px"}}    />     
+            <img  key={k} src={itm}  alt="img" className='' style={{width:"250px"}}    />     
         )):null}
         </div>
         :
