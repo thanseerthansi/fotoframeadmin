@@ -11,6 +11,7 @@ export default function Home() {
   }, [])
   const checkauth=()=>{
     let token  = window.localStorage.getItem("fotoframe_token")
+    // console.log("token",token)
     if(!token){
       return navigate('/login');
     }

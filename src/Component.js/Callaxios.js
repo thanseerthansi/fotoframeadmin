@@ -1,8 +1,10 @@
 import React from 'react'
 import { BaseUrl } from './Url'
 import axios from 'axios'
+// import { useNavigate } from 'react-router-dom';
 
 export default async function Callaxios(method,url,datalist) {
+    // let navigate = useNavigate();
     let token =localStorage.getItem('fotoframe_token');
     let body = {
         method:method,
@@ -20,10 +22,13 @@ export default async function Callaxios(method,url,datalist) {
         }
     
     } catch (error) {
-        console.log(error)
+
+        // console.log("errroeeeeeeee")
+        console.log(error.message)
         // if (error.message==="Request failed with status code 401"){
         //     console.log("notoken")
-        //     window.location.href = '/adminlogin';
+        //     return navigate('/login')
+            // window.location.href = '/adminlogin';
         // }
         return null
     } 

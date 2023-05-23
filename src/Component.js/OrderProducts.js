@@ -248,7 +248,7 @@ export default function OrderProducts() {
       <button onClick={()=>setmodal(!modal)} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="btn-close" />
       </div>
       <form className="forms-sample" >
-        <div className="modal-body">
+        <div   className="modal-body  ">
         {selectitm?<>  
         {selectitm.product_type==="Mini Frame"?
         // <div className='row '>
@@ -335,7 +335,7 @@ export default function OrderProducts() {
         :selectitm.product_type==="Canvas" & selectitm.product?
         <>
             {selectitm.frame? 
-             <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
+             <div className="d-flex border-cp overflowbar framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
             {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
                 <img key={k} src={itm}  alt="img" className='' style={{width:"250px"}}    />     
             )):null}
@@ -358,7 +358,8 @@ export default function OrderProducts() {
               )):null}
               </>  }</>
     :selectitm.product_type==="Canvas" & !selectitm.product?
-    <>
+    <div>
+    
         {selectitm.frame? 
          <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >
         {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
@@ -381,7 +382,7 @@ export default function OrderProducts() {
     
       </div>   
           )):null}
-          </>  }</>
+          </>  }</div>
     :selectitm.product_type==="Print"?<>
     {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>(               
       <div key={k} className='  ' >             

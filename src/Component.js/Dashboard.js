@@ -12,7 +12,7 @@ export default function Dashboard() {
     const Getorders =async()=>{
         try {
           let data  = await Callaxios("get","order/orders/")
-          console.log("order date",data)
+        //   console.log("order date",data)
           if (data.status===200){
               setorderdata(data.data)
           }

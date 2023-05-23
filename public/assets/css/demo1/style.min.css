@@ -27574,7 +27574,7 @@ html{
   rotateX(0deg) 
   rotateY(6deg) 
   rotateZ(0deg);
-  box-shadow: 24px 16px 64px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 0px 4px -10px rgba(0, 0, 0, 0.08);
   border-radius: 2px;
   
 }

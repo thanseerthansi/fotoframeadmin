@@ -171,6 +171,25 @@ export default function Frame() {
       setimage()
       setmainimage()
     }
+    const handleImageLoad = (event) => {
+      const file = event;
+      // console.log("event",event)
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+           if(img.width===img.height){
+            setimage(event)
+           } else{
+            notifyerror("Frame image should be square Dimension")
+           }
+        };
+        img.src = e.target.result;
+      }; 
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    };
   return (
     <div className='page-wrapper p-3 mt-5'>
        <ToastContainer/>
@@ -235,7 +254,8 @@ export default function Frame() {
                 </div>
                 <div className="mb-3 col-12">
                     <label htmlFor="userEmail" className="form-label ">Frame image (png)<b>*</b></label>
-                    <input onChange={(e)=>setimage(e.target.files[0])} value={''}  type="file"   className="form-control" placeholder="image"  />
+                    <input onChange={(e)=>handleImageLoad(e.target.files[0])} value={''}  type="file"   className="form-control" placeholder="image"  />
+                    {/* <input onChange={(e)=>setimage(e.target.files[0])} value={''}  type="file"   className="form-control" placeholder="image"  /> */}
                     {image ?
                           <div className='m-2'>
                             <img className='rounded image-size' src={image instanceof File ? URL.createObjectURL(image):image}  alt='img' height="auto" width="auto" />
