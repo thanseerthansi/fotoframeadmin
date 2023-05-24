@@ -154,6 +154,7 @@ export default function Products() {
           setallnull()
           setselectproduct(itm)
           settitle(itm.product_name)
+          setsizes(itm.sizes)
           setauther(itm.auther)
           setimage(itm.product_image)
           setprice(itm.price)
