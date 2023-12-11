@@ -78,7 +78,7 @@ export default function Frameprice() {
         }
          
         let data = await Callaxios("post","frame/frameprice/",body)
-        console.log("data",data)
+        // console.log("data",data)
         if (data.data.Status===200){
           notify(msg)
           GetFrameprice()
@@ -153,14 +153,18 @@ export default function Frameprice() {
                 
                 // console.log("array",array)
                 // console.log("noofphoto",noofphoto)
-                if(frame==="canvas"|| frame==="print"){
+                if (array.includes(noofphoto)){
+                  notifyerror("Already added")
+                  return
+                }
+                // if(frame==="canvas"|| frame==="print"){
                  
-                  }else{
-                    if (array.includes(noofphoto)){
-                      notifyerror("Already added")
-                      return
-                  }
-                } 
+                //   }else{
+                //     if (array.includes(noofphoto)){
+                //       notifyerror("Already added")
+                //       return
+                //   }
+                // } 
                 
                 let list=''
                 let pp_ls =noofphoto+"-"+size+"-"+price 
@@ -327,7 +331,7 @@ export default function Frameprice() {
                           <option  value="canvas" >canvas</option>                        
                         </select>                                        
                 </div>
-                {frame==="college"||frame==="canvas"||frame==="print"?
+                {frame==="college"||frame==="canvas"||frame==="print"||frame ==="miniframe"?
                 <div className="mb-3  col-6" >
                     <label htmlFor="select"  className="form-label ">Orientation <b>*</b> </label>
                     <select required  onChange={(e)=>setorientation(e.target.value)} value={orientation} className="form-select" id="exampleFormControlSelect1">
