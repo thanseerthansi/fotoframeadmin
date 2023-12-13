@@ -100,11 +100,12 @@ export default function Orders() {
             },
             {
               name:"Paid",
-              selector : (itm)=><div className='d-flex-col text-center'>{itm.paidstatus?"Paid":"No"}
+              selector : (itm)=><div className='d-flex-col text-center'>
+                <button  disabled className={`h-auto w-auto rounded  p-1 btn  ${itm.paidstatus?"btn-success":"btn-danger"}`} >{itm.paidstatus?"Paid":"Not Paid"}</button>
               <br/><select onChange={(e)=>changepaidstatus(itm.id,e.target.value)} className='form-select mt-1' >
                 <option value='' hidden>Change Status</option>
                 <option value={true}>Paid</option>
-                <option value={false}>No</option>
+                <option value={false}>Not Paid</option>
                 
               </select>
                </div>,

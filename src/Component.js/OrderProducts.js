@@ -22,14 +22,10 @@ export default function OrderProducts() {
     const [selectitm,setselectitm]=useState('')
     let location = useLocation();
     let orderp = location.state?location.state.someArray:""
-    // console.log("array",orderp)
-    // console.log("selectitm",selectitm)
   
     useEffect(() => {
       Getorderproduct()
         window.scrollTo(0,0);
-        // accesscheck()
-        // Scripts()
     }, [])
     const notify = (msg) => toast.success(msg, {
         position: "top-left",
@@ -42,48 +38,14 @@ export default function OrderProducts() {
     
     
     const orderfunction=()=>{
-        // console.log("orders",orderproductdata)
-        // console.log("orderp.id",orderp.id)
       if (orderproductdata){
         let order_qs = orderproductdata.filter(t=>t.order[0].id===orderp.id)
-        // console.log("orderqs",order_qs)
         return order_qs
       }else{return null}
       
       
     }   
-        // const columns =[
-    
-        //     {
-        //       name: <div>#</div>,
-        //       selector: (itm,index) =>index+1,
-        //       width:"50px",
-        //     },
-        //     {
-        //       name:"Order.No",
-        //       selector : (itm)=><div>F{itm.created_date.split('T')[1].split('.')[1]}f{itm.id}</div>,
-        //       // selector : (itm)=><div>F{orderdata.created_date.split('T')[1].split('.')[1]}f{orderdata.id}</div>,
-              
-        //     },
-        //     {
-        //       name:"Customer",
-        //       selector : (itm)=><div>{itm.Customer_name}</div>,
-              
-             
-        //     },
-        //     {
-        //       name:"Status",
-        //       selector : (itm)=><div>{itm.status}</div>,
-        
-        //     },
-        //     {
-        //       name:"Date",
-        //       selector : (itm)=><div className='d-flex-col text-center'>                    
-        //   </div>,
-           
-        //     },
-        //   ]
-         
+
           const customStyles = {
             cells: {
               style: {
@@ -136,7 +98,6 @@ export default function OrderProducts() {
         <div className='row ' >
           <div className='col-6' >
         <h6 className="card-title text-start text-bold">Order detail</h6>
-        {/* <div className='text-start'><button onClick={()=>setmodal(!modal)} className='btn btn-success btn-sm' ><BiAddToQueue size={20}/>Add</button></div> */}
         </div>
        
         </div>
@@ -169,7 +130,6 @@ export default function OrderProducts() {
                 <th>Papper</th>
                 <th>Frame</th>
                 <th >Size</th>
-                {/* <th style={{width:"180px"}}>Status</th> */}
                 <th>Price</th>
                 
                 
@@ -198,25 +158,14 @@ export default function OrderProducts() {
                   <button className='border-0' onClick={()=>handleClick(imgUrl+itm.product[0].product_image,itm.product?itm.product.length?itm.product[0].product_name:itm.product_type:itm.product_type,itm.orientation)} >
                   <img src={imgUrl+itm.product[0].product_image} alt="Image description"/>
                 </button>
-                //   <a  href={imgUrl+itm.product[0].product_image} download>
-                //   <img src={imgUrl+itm.product[0].product_image} alt="Image description"/>
-                // </a>
+               
                 }
                   </td>
                 <td>{itm.orientation}</td>
                 <td>{itm.papper}</td>
                 <td>{itm.frame?.[0].framename??<p>NO</p>}</td>
                 <td>{itm.size}</td>
-                {/* <td><div className='p-2'>{itm.status}
-              <button  disabled className='h-auto w-auto rounded  p-1  ' >{itm.status}</button>
-              <br/><select className='form-select mt-1' >
-                <option value='' hidden>Change Status</option>
-                <option>New</option>
-                <option>Dispatch</option>
-                <option>Delivered</option>
-                <option>Delete</option>
-              </select>
-              </div></td> */}
+                
                 <td>{itm.price} <span className='aed'>AED</span></td>
                 {/* <td>name</td> */}
                 
@@ -251,25 +200,12 @@ export default function OrderProducts() {
         <div   className="modal-body  ">
         {selectitm?<>  
         {selectitm.product_type==="Mini Frame"?
-        // <div className='row '>
-        // {selectitm? selectitm.image_url.split(',').map((itm,k)=>(
-        //     <div key={k} className='col-12 col-md-6 '>
-        //     <div className="mt-2 item">
-        //       <figure className='framebox-shadow d-flex border-cp' >
-               
-        //       <img src={selectitm? Array.isArray(selectitm.frame)?imgUrl+selectitm.frameid[0]?.image??"/assets/img/photos/black-frame.png":typeof(selectitm.frame)==="object"? selectitm.frame.image:"/assets/img/photos/black-frame.png":"/assets/img/photos/black-frame.png"} alt="example"  style={{width:"100%"}} /> 
-        //       <img src={itm} alt="img" className='minimage' style={selectitm.frame_look==="MODERN"?{width:"94%"}:{width:"94%",padding:"10px"}} />             
-               
-        //       </figure>
-        //     </div>
-        //     </div>
-        //     ))
-        //     :null}</div>
+        
         <div className='row overflowbar'>  
             {selectitm.image_url.split(',').length?selectitm.image_url.split(',').map((itm,k)=>( 
               <div key={k} className='col-12 col-md-6  mt-2'> 
-              <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+selectitm.frame[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >             
-                <img src={itm}  alt="img" className='' style={selectitm.frame_look==="MODERN"?{width:"250px"}:{width:"250px",padding:"10px"}}    />     
+              <div className="d-flex border-cp framebox-shadow" style={{width:"266px",margin:"auto",borderImage:`url(${imgUrl+selectitm?.frame?.[0]?.image??"/assets/images/black-frame.png"})1%  stretch repeat`}} >             
+                <img src={itm}  alt="img" className='' style={selectitm.frame_type==="MODERN"?{width:"250px"}:{width:"250px",padding:"10px"}}    />     
                 </div>
                 </div>
            )):null}
@@ -401,10 +337,7 @@ export default function OrderProducts() {
        
         <div />
         </div>
-        {/* <div className="modal-footer">
-          <button onClick={()=>setmodal(!modal) } type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          
-        </div> */}
+        
       </form>
       </div>
     </div>

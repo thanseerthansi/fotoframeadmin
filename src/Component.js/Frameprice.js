@@ -83,6 +83,9 @@ export default function Frameprice() {
           notify(msg)
           GetFrameprice()
           setmodal(!modal)
+        }else{
+          notifyerror(data.data.Message)
+          setmodal(!modal)
         }
       } catch (error) {
         console.log(error)
