@@ -63,7 +63,7 @@ export default function Frameprice() {
         if (selectframeprice){
           body = {
             frame:frame,
-            orientation:frame==="miniframe"?"":orientation,
+            orientation:orientation,
             price :pricelist,
             id:selectframeprice.id,
           }
@@ -85,7 +85,7 @@ export default function Frameprice() {
           setmodal(!modal)
         }else{
           notifyerror(data.data.Message)
-          setmodal(!modal)
+          // setmodal(!modal)
         }
       } catch (error) {
         console.log(error)
@@ -156,18 +156,18 @@ export default function Frameprice() {
                 
                 // console.log("array",array)
                 // console.log("noofphoto",noofphoto)
-                if (array.includes(noofphoto)){
-                  notifyerror("Already added")
-                  return
-                }
-                // if(frame==="canvas"|| frame==="print"){
+                // if (array.includes(noofphoto)){
+                //   notifyerror("Already added")
+                //   return
+                // }
+                if(frame==="canvas"||frame==="miniframe"|| frame==="print"){
                  
-                //   }else{
-                //     if (array.includes(noofphoto)){
-                //       notifyerror("Already added")
-                //       return
-                //   }
-                // } 
+                  }else{
+                    if (array.includes(noofphoto)){
+                      notifyerror("Already added")
+                      return
+                  }
+                } 
                 
                 let list=''
                 let pp_ls =noofphoto+"-"+size+"-"+price 
@@ -338,7 +338,7 @@ export default function Frameprice() {
                 <div className="mb-3  col-6" >
                     <label htmlFor="select"  className="form-label ">Orientation <b>*</b> </label>
                     <select required  onChange={(e)=>setorientation(e.target.value)} value={orientation} className="form-select" id="exampleFormControlSelect1">
-                          <option hidden value='' >Select Orientation</option>
+                          <option selected hidden value='' >--Select Orientation--</option>
                           <option  value="landscape" >Landscape</option>
                           <option value="portait" >portait</option>
                           <option  vlaue ="square" >square</option>
