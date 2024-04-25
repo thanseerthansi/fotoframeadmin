@@ -208,7 +208,7 @@ export default function Frame() {
             <div className="input-group-text">
               <BiSearch/>
             </div>
-            <input  type="text" onChange={(e)=>setsearchvalue(e.target.value)} className="form-control" id="navbarForm" placeholder="Search here..." />
+            <input  type="text"  onChange={(e)=>e.target.value.charAt(0) !== ' '?setsearchvalue(e.target.value):""} value={searchvalue} className="form-control" id="navbarForm" placeholder="Search here..." />
           </div>
         </form>
         </div>

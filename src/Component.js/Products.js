@@ -373,7 +373,7 @@ export default function Products() {
             <div className="input-group-text">
               <BiSearch/>
             </div>
-            <input onChange={(e)=>setsearchvalue(e.target.value)} value={searchvalue} type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
+            <input  onChange={(e)=>e.target.value.charAt(0) !== ' '?setsearchvalue(e.target.value):""} value={searchvalue} type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
           </div>
         </form>
         <div className='row mt-1'>
@@ -385,7 +385,7 @@ export default function Products() {
           <input onChange={(e)=>setdelivery_charge(e.target.value)} value={delivery_charge} type="text" className="form-control " id="navbarForm" placeholder="Delivery charge" />
           {/* <b className='mt-2'>AED</b>&nbsp; */}
           </div>
-          <div className='col-6'>
+          <div className='col-6 m-1'>
           <button onClick={()=>postdelivery()} className='btn btn-sm btn-primary'>submit</button>
           </div>
           

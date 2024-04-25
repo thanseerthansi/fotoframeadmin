@@ -288,7 +288,7 @@ export default function Frameprice() {
             <div className="input-group-text">
               <BiSearch/>
             </div>
-            <input onChange={(e)=>setsearchvalue(e.target.value)}  type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
+            <input  onChange={(e)=>e.target.value.charAt(0) !== ' '?setsearchvalue(e.target.value):""} value={searchvalue} type="text" className="form-control" id="navbarForm" placeholder="Search here..." />
           </div>
         </form>
         </div>

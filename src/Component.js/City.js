@@ -129,19 +129,19 @@ export default function City() {
               width:"50px",
             },
             {
-              name:"City",
+              name:"CITY",
               selector : (itm)=><div>{itm.city}</div>,
               // width:"20%",
             },
             {
-              name:"description",
+              name:"DESCRIPTION",
               selector : (itm)=><div className='d-flex-col text-center'>{itm.description}
                 
           </div>,
             
             },
             {
-              name:"Action",
+              name:"ACTION",
               selector : (itm)=><div className='d-flex'><div>
               <button onClick={()=>Getselectcity(itm)} className='btn btn-warning btn-xs '><BiEdit size={15} /></button>
               </div>
@@ -199,7 +199,7 @@ export default function City() {
             <div className="input-group-text">
               <BiSearch/>
             </div>
-            <input  type="text" onChange={(e)=>setsearchvalue(e.target.value)} className="form-control" id="navbarForm" placeholder="Search here..." />
+            <input  type="text" onChange={(e)=>e.target.value.charAt(0) !== ' '?setsearchvalue(e.target.value):""} value={searchvalue} className="form-control" id="navbarForm" placeholder="Search here..." />
           </div>
         </form>
         </div>
